@@ -8,7 +8,10 @@ void init_param(bool used,size_t mem_size,t_zone *p)
     p->used = false;
     p->mem = alloc(mem_size);
     if (p->mem == (void *) -1)
+    {
+        printf("its fuking append\n");
         p->mem = NULL;
+    }
     p->next = NULL;
 }
 
@@ -34,18 +37,19 @@ t_zone *new_lst(size_t nb_elem,size_t mem_size)
         // printf("%d\n",lst->used);
         i++;
     }
-    printf("%d\n",i);
+    // printf("%d\n",i);
     return(tmp);
 }
 
 t_zone *find_first_none_used(t_zone *first)
 {
-    t_zone tmp;
+    t_zone *tmp;
     tmp = first;
     while (tmp->next != NULL)
     {
         if(tmp->used == false)
-            return(tmp)
+            return(tmp);
+        tmp = tmp->next;
     }
     return NULL;
 }

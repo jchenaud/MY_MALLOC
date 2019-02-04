@@ -9,61 +9,44 @@ void *glob;
 void *alloc(size_t size)
 {
     // printf("%d",size);
-    return((void *)mmap(0,size,PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0));
+    // printf("size allocated %d\n",size);
+    return(mmap(0,size,PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0));
 }
 
+
+void *alloc_in_zone(t_zone *flst, size_t size)
+{
+    t_zone *tmp;
+    tmp = find_first_none_used(flst);
+    tmp->mem = alloc(size);
+    if (tmp == FAIL_ALLOC)
+        tmp->mem = NULL;
+    else
+        tmp->used = true;
+    printf("%p\n",tmp->mem);
+    return (tmp->mem);
+}
 // void *save_zone(void *)
 void *ft_malloc(size_t size)
 {
-
-    printf("%p/\n",glob);
-    // if(glob == NULL)
+    int page_size = getpagesize();
+  
     if(init == false)
         {
             t_env *e = (t_env *)alloc(sizeof(t_env)*1);
-            e->tiny = new_lst(TINY_LS,100);
-            e->small = new_lst(TINY_LS,1000);
-            printf("%p/ %p\n",e,e->tiny);
+            e->tiny = new_lst(TINY_LS,page_size * TINY_MULTY_PAGESIZE);
+            e->small = new_lst(SMALL_LS,page_size * SMALL_MULTY_PAGESIZE);
             init = true;
             glob = e;
         }
-    
-    // int i;
-    // int page_size = getpagesize();
-    // printf("%d\n",page_size);
-    // if(ZONE_AL == NULL)
-    //     ZONE_AL =  (void**)alloc(3);
-    //     i = 0;
-    //     while(i < 3)
-    //     {
-    //         ZONE_AL[i] = alloc(page_size*(i+1));
-    //         i++;
-    //     }
-    
-    //  if (size < page_size/100)
-    //     return(alloc(page_size/100));   
-    // else if(size < 1000)
-    //     return(alloc(100));
-    // else
-    //     return(alloc(size));
-    return(alloc(size));   
-    
-    // if (size < page_size)
-    //     return(alloc(page_size));   
-    // else if(size < 1000)
-    //     return(alloc(100));
-    // else
-    //     return(alloc(size));
-// switch(size) {
-
-//    case size < 100 :
-//       return(alloc(100));
-//    case size < 1000 :
-//       return(alloc(1000));
-//    default :
-//       return(alloc(size));
-//    statement(s);
-// }
+    if (size < page_size * TINY_MULTY_PAGESIZE)
+        return(alloc_in_zone(((t_env *)glob)->tiny,page_size * TINY_MULTY_PAGESIZE));
+    if (size < page_size * SMALL_MULTY_PAGESIZE)
+    {
+        printf("page_size = %d\n",page_size);
+        return(alloc_in_zone(((t_env *)glob)->small,page_size * SMALL_MULTY_PAGESIZE));
+    }
+    printf("pas encore coder");
 }
 
 

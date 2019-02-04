@@ -5,7 +5,13 @@
 
 
 #define TINY_LS 100
+#define TINY_MULTY_PAGESIZE 1
+
 #define SMALL_LS 100
+#define SMALL_MULTY_PAGESIZE 2
+
+#define FAIL_ALLOC (void *) -1
+
 
 
 typedef struct	s_zone {
