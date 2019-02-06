@@ -19,9 +19,9 @@ int main()
 
 
     int k = 0;
-    while (1)
+    while (k < 100)
     {
-        size = 600000; // 4095 segfault
+        size = 200; // 4095 segfault
         tab = (char*) ft_malloc(size + 1);
 
         i = 0;
@@ -35,6 +35,9 @@ int main()
         // printf("%s\n",tab);
         k++;
         printf("%d\n",k);
+    show_alloc_mem();
+
     }
+    show_alloc_mem();
     return (0);
 }

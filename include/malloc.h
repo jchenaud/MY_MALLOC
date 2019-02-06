@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include<sys/mman.h>
-
+#include<unistd.h>
+#include"libft.h"
+#include<stdint.h>
 
 #define TINY_LS 100
 #define TINY_MULTY_PAGESIZE 1
@@ -38,10 +40,12 @@ extern void *glob;
 void *alloc(size_t size);
 void *ft_malloc(size_t size);
 // void *realloc(void *ptr, size_t size);
-
+void show_alloc_mem();
 // mylst.c
 t_zone  *new_lst(size_t nb_elem,size_t mem_size);
 t_zone  *find_first_none_used(t_zone *first);
 void    init_param(bool used,size_t mem_size,t_zone *p);
 void    add_m_lst(size_t nb_elem,size_t mem_size,t_zone *lst);
+
+// print_func
 
