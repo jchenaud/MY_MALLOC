@@ -22,6 +22,7 @@ typedef struct	s_zone {
     bool    used;
     void    *mem;
     void    *next;
+    size_t  size;
 	
 }				t_zone;
 
