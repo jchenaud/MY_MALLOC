@@ -16,7 +16,7 @@ int main()
     }
     tab[size+1] = '\0';
     printf("%s\n",tab);
-
+    // my_free(tab);
 
     // int k = 0;
     // while (k < 10000)
@@ -41,7 +41,8 @@ int main()
     // show_alloc_mem();
 
  int k = 1;
-    while (k < 10000000)
+ show_alloc_mem();
+    while (k < 100)
     {
         size = k; // 4095 segfault
         tab = (char*) ft_malloc(size + 1);
@@ -55,11 +56,39 @@ int main()
         }
         tab[size] = '\0';
         // printf("%s\n",tab);
-        k = k + 5000;
-        printf("%d\n",k);
+        k = k + 1;
+        show_alloc_mem();
+
+        // printf("%d\n",k);
+        if(size < 4095)
+        {
+            my_free(tab);
+            // tab = NULL;
+
+        }
         // show_alloc_mem();
 
     }
     show_alloc_mem();
+   // show_alloc_mem();
+    // char *tab;
+    // printf("p tab_init = %p\n",tab);
+    // tab =  (char*) ft_malloc(8);
+    // printf("p tab_alloc = %p\n",tab);
+
+    // tab[0] = 's';
+    // tab[1] = 'a';
+
+    // printf("p tab = %p\n",tab);
+    // printf("%s\n",tab);
+    // show_alloc_mem();
+    // my_free(tab);
+    // printf("%s\n",tab);
+    // show_alloc_mem();
+
+    // tab =  (char*) ft_malloc(8);
+    // show_alloc_mem();
+    
+
     return (0);
 }

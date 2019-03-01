@@ -33,24 +33,27 @@ void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size)
         tmp->size = size;
         tmp->used = true;
     }
-    printf("%p\n",tmp->mem);
+    // printf("%p\n",tmp->mem);
     return (tmp->mem);
 }
 // void *save_zone(void *)
 void *ft_malloc(size_t size)
 {
-    int page_size = getpagesize();
+    int page_size;
+   // int page_size = getpagesize();
   
     if(init == false)
         {
             t_env *e = (t_env *)alloc(sizeof(t_env)*1);
-            e->tiny = new_lst(TINY_LS,page_size * TINY_MULTY_PAGESIZE);
-            e->small = new_lst(SMALL_LS,page_size * SMALL_MULTY_PAGESIZE);
+            e->page_size = getpagesize();
+            e->tiny = new_lst(TINY_LS,e->page_size * TINY_MULTY_PAGESIZE);
+            e->small = new_lst(SMALL_LS,e->page_size * SMALL_MULTY_PAGESIZE);
             e->large = (t_zone *)alloc(sizeof(t_zone)*1);
             e->large->next = NULL;
             init = true;
             glob = e;
         }
+    page_size = ((t_env *)glob)->page_size;
     if (size < page_size * TINY_MULTY_PAGESIZE)
         return(alloc_in_zone(((t_env *)glob)->tiny,page_size * TINY_MULTY_PAGESIZE,size));
     if (size < page_size * SMALL_MULTY_PAGESIZE)

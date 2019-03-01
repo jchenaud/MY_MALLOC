@@ -30,6 +30,7 @@ typedef struct	s_env {
     t_zone  *tiny;
     t_zone  *small;
     t_zone  *large;
+    size_t  page_size;
 	
 }				t_env;
 
@@ -37,7 +38,7 @@ typedef struct	s_env {
 extern void *glob;
 
 
-// void free(void *ptr);
+void free(void *ptr);
 void *alloc(size_t size);
 void *ft_malloc(size_t size);
 // void *realloc(void *ptr, size_t size);
@@ -45,6 +46,10 @@ void show_alloc_mem();
 // mylst.c
 t_zone  *new_lst(size_t nb_elem,size_t mem_size);
 t_zone  *find_first_none_used(t_zone *first);
+t_zone  *find_in_zone(void *ptr, t_zone *first);
+size_t  find_index_in_zone(void *ptr, t_zone *first);
+
+
 void    init_param(bool used,size_t mem_size,t_zone *p);
 void    add_m_lst(size_t nb_elem,size_t mem_size,t_zone *lst);
 

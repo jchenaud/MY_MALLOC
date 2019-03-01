@@ -1,6 +1,6 @@
  NAME = malloc
 
-FILE = 	ft_malloc.c mylst.c test.c  show_alloc_mem.c print_func.c\
+FILE = 	ft_malloc.c mylst.c test.c  show_alloc_mem.c print_func.c free.c\
 
 SRC_PATH = src
 INCLUDES = include

@@ -75,3 +75,58 @@ t_zone *find_first_none_used(t_zone *first)
     }
     return NULL;
 }
+
+/* recherche ptr dans une zone pour la retourner et modifie sa taille en fonction des maillon libre persu */
+t_zone *find_in_zone(void *ptr, t_zone *first)
+{
+    t_zone *tmp;
+    tmp = first;
+    int i;
+
+    i = 0;
+    while (tmp->mem != ptr)
+    {
+        //  printf("%p // %p\n",tmp->mem,ptr);
+        if (tmp->next != NULL)
+            tmp = tmp->next;
+        else
+        {
+            // printf("pas ici\n");
+
+            return(NULL);
+        }
+        // if(tmp->used == false)
+        //     i++;
+    }
+    // printf("normall out\n");
+    // tmp->size = i;
+    return tmp;
+}
+
+size_t find_index_in_zone(void *ptr, t_zone *first)
+{
+    t_zone *tmp;
+    tmp = first;
+    size_t i;
+
+    i = 0;
+    while (tmp->mem != ptr)
+    {
+        //  printf("%p // %p\n",tmp->mem,ptr);
+        if (tmp->next != NULL)
+            tmp = tmp->next;
+        else
+        {
+            // printf("pas ici\n");
+
+            return(-1);
+        }
+        i++;
+        // if(tmp->used == false)
+        //     i++;
+    }
+    // printf("normall out\n");
+    // tmp->size = i;
+    return i;
+}
+
