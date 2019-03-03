@@ -3,8 +3,9 @@
 
 
 
-void	ft_puthexa(uint64_t nb)
+void	ft_puthexa(void *ptr)//(uint64_t nb)
 {
+	uint64_t nb = (uint64_t)ptr;
 	char	hex_revert[16];
 	int		hex[16];
 	int		i;

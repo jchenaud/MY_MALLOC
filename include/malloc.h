@@ -7,6 +7,7 @@
 #include<stdint.h>
 
 
+#include"libft.h" 
 #include <stdio.h> // a enlever
 
 #define TINY_LS 10
@@ -41,14 +42,16 @@ typedef struct	s_env {
 extern void *glob;
 
 
-//void free(void *ptr);
-void my_free(void *ptr);
+void free(void *ptr);
+//void my_free(void *ptr);
 
 void *alloc(size_t size);
-void *ft_malloc(size_t size);
+// void *ft_malloc(size_t size);
+void *malloc(size_t size);
+
 // void *realloc(void *ptr, size_t size);
 void show_alloc_mem();
-void    ft_puthexa(uint64_t nb);
+void    ft_puthexa(void *ptr);//(uint64_t nb);
 
 // mylst.c
 t_zone  *new_lst(size_t nb_elem,size_t mem_size);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jchenaud <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: jchenaud <jchenaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/22 09:14:18 by jchenaud          #+#    #+#              #
-#    Updated: 2017/02/23 07:00:52 by jchenaud         ###   ########.fr        #
+#    Updated: 2019/03/03 15:25:49 by jchenaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -144,9 +144,9 @@ BRICK = ft_tolower.o \
 
 all: $(NAME)
 $(NAME):
-	@gcc -c -Wall -Werror -Wextra $(SRC)
-	@ar rc $(NAME) $(BRICK)
-	@ranlib $(NAME)
+	gcc -c -Wall -Werror -Wextra $(SRC)
+	ar rc $(NAME) $(BRICK)
+	ranlib $(NAME)
 
 clean:
 	@/bin/rm -f $(BRICK)

@@ -1,4 +1,6 @@
-#include "malloc.h"
+// #include "malloc.h"
+#include <libft_malloc.so>
+// #include <stdlib>
 #include <stdio.h>
 int main()
 {
@@ -8,9 +10,9 @@ int main()
 
     //tab = (char*) ft_malloc(4096);
     // tab = (char*) ft_malloc(4096);
-tab = (char*) ft_malloc(0);
-my_free(tab);
-my_free(tab);
+tab = (char*) malloc(0);
+// free(tab);
+free(tab);
 
 
     // i = 0;
@@ -57,18 +59,18 @@ my_free(tab);
     {
         // printf("%d\n",k);
         size = k; // 4095 segfault
-        tab = (char*) ft_malloc(size+1);
+        tab = (char*) malloc(size+1);
         // printf("%p tab\n",tab);
 
 
         // if(k % 2 == 0)
         // {
-            my_free(tab);
+            free(tab);
         // }
         k = k + 1;
 
     }
-    my_free(tab);
+    // free(tab);
     printf("______________________________SMALLLL OK____________\n");
 //  show_alloc_mem();
  k = 0;
@@ -76,7 +78,7 @@ my_free(tab);
     {
         printf("%d\n",k);
         size = k; // 4095 segfault
-        tab = (char*) ft_malloc(size);
+        tab = (char*) malloc(size);
         // printf("%p tab\n",tab);
 
         // i = 0;
@@ -97,7 +99,7 @@ my_free(tab);
             //  printf("tab p =%p\n",tab);
 
             // size_t lst_count(t_zone *lst)
-            my_free(tab);
+            free(tab);
             // tab = NULL;
 
         // }
@@ -111,7 +113,7 @@ my_free(tab);
 
 
     }
-    show_alloc_mem();
+    // show_alloc_mem();
    // show_alloc_mem();
     // char *tab;
     // printf("p tab_init = %p\n",tab);

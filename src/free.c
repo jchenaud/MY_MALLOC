@@ -76,7 +76,8 @@ int find_desaloc(t_zone *first,void *ptr,size_t len)
 
 }
 
-void my_free(void *ptr)
+// void my_free(void *ptr)
+void free(void *ptr)
 {
     t_zone *tmp;
     t_zone *tmpe;

@@ -1,7 +1,7 @@
 #include "malloc.h"
 
 #include <stdio.h>
-#include <unistd.h>
+// #include <unistd.h> 
 
 // void **ZONE_AL = NULL;
 static bool init =  false;
@@ -51,7 +51,8 @@ void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size)
     return (tmp->mem);
 }
 // void *save_zone(void *)
-void *ft_malloc(size_t size)
+// void *ft_malloc(size_t size)
+void *malloc(size_t size)
 {
     // printf("________________________________________malloc\n");
 
