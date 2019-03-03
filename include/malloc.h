@@ -6,13 +6,16 @@
 #include"libft.h"
 #include<stdint.h>
 
-#define TINY_LS 100
+
+#include <stdio.h> // a enlever
+
+#define TINY_LS 10
 #define TINY_MULTY_PAGESIZE 1
 
-#define SMALL_LS 100
+#define SMALL_LS 10
 #define SMALL_MULTY_PAGESIZE 2
 
-#define NB_ADD_ZONE  50
+#define NB_ADD_ZONE  10
 
 #define FAIL_ALLOC (void *) -1
 
@@ -38,16 +41,21 @@ typedef struct	s_env {
 extern void *glob;
 
 
-void free(void *ptr);
+//void free(void *ptr);
+void my_free(void *ptr);
+
 void *alloc(size_t size);
 void *ft_malloc(size_t size);
 // void *realloc(void *ptr, size_t size);
 void show_alloc_mem();
+void    ft_puthexa(uint64_t nb);
+
 // mylst.c
 t_zone  *new_lst(size_t nb_elem,size_t mem_size);
 t_zone  *find_first_none_used(t_zone *first);
 t_zone  *find_in_zone(void *ptr, t_zone *first);
 size_t  find_index_in_zone(void *ptr, t_zone *first);
+size_t  lst_count(t_zone *lst);
 
 
 void    init_param(bool used,size_t mem_size,t_zone *p);

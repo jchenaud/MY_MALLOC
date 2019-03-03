@@ -16,29 +16,45 @@ void *alloc(size_t size)
 
 void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size)
 {
+    // printf("alloc in zone  %p\n",flst);
     t_zone *tmp;
+
+    // printf("size lst = %zu\n",lst_count(flst));
+    // printf("ici \n");
     tmp = find_first_none_used(flst);
+    // printf("la \n");
     if (tmp == NULL)
     {
+    // printf("/// ADDing///\n");
+        
         add_m_lst(NB_ADD_ZONE,size_alloc,flst);
         tmp = find_first_none_used(flst);
         if(tmp == NULL)
+        {
+            printf("caca\n");
             return NULL ;
+        }
     }
+    // printf("tmp_mem = %p\n",tmp->mem);
     tmp->mem = alloc(size_alloc);
-    if (tmp == FAIL_ALLOC)
+    // printf("/// proute///\n");
+
+    if (tmp->mem == FAIL_ALLOC)//(tmp == FAIL_ALLOC)
         tmp->mem = NULL;
     else
     {
         tmp->size = size;
         tmp->used = true;
     }
-    // printf("%p\n",tmp->mem);
+    // printf("/// SORTIE///\n");
+
     return (tmp->mem);
 }
 // void *save_zone(void *)
 void *ft_malloc(size_t size)
 {
+    // printf("________________________________________malloc\n");
+
     int page_size;
    // int page_size = getpagesize();
   
