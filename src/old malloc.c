@@ -8,8 +8,8 @@ static bool init =  false;
 void *glob;
 void *alloc(size_t size)
 {
-    // printf("%d",size);
-    // printf("size allocated %d\n",size);
+    // // printf("%d",size);
+    // // printf("size allocated %d\n",size);
     return(mmap(0,size,PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0));
 }
 
@@ -30,7 +30,7 @@ void *alloc_in_zone(t_zone *flst, size_t size)
         tmp->mem = NULL;
     else
         tmp->used = true;
-    printf("%p\n",tmp->mem);
+    // printf("%p\n",tmp->mem);
     return (tmp->mem);
 }
 // void *save_zone(void *)

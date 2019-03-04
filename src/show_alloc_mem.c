@@ -1,5 +1,5 @@
 #include "malloc.h"
-// #include "ft_printf.h"
+// #include "ft_// printf.h"
 void *glob;
 
 size_t print_mem_zone(t_zone *first)
@@ -36,7 +36,7 @@ void show_alloc_mem()
     int k = 13;
     char *stradd = (char*) &k;
     
-    // printf("%s , %p\n",stradd,e);
+    // // printf("%s , %p\n",stradd,e);
     // ft_puthexa((uint64_t)&e);
     ft_putstr("\n");
     ft_putstr("TINY : "); ft_puthexa(e->tiny); ft_putstr("\n\t");

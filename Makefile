@@ -9,6 +9,7 @@ FILE = 	ft_malloc.c \
 		show_alloc_mem.c \
 		print_func.c \
 		free.c \
+		realloc.c \
 		#test.c
 
 SRC_PATH = src
@@ -39,7 +40,7 @@ test:
 $(BRICK): $(SRC)
 	@gcc  -o $@ -I include  -I libft -c $<
 
-# %.o: %.c includes/ft_printf.h Makefile
+# %.o: %.c includes/ft_// printf.h Makefile
 # 	gcc -Wall -Wextra -Werror -o $@ -c $< -I includes
 
 # $(NAME): $(BRICK) $(SRC)

@@ -1,43 +1,42 @@
 #include "malloc.h"
 
 #include <stdio.h>
-// #include <unistd.h> 
-
+// #include <unistd.h>   
 // void **ZONE_AL = NULL;
 static bool init =  false;
 void *glob;
 void *alloc(size_t size)
 {
-    // printf("%d",size);
-    // printf("size allocated %d\n",size);
+    // // printf("%d",size);
+    // // printf("size allocated %d\n",size);
     return(mmap(0,size,PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0));
 }
 
 
 void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size)
 {
-    // printf("alloc in zone  %p\n",flst);
+    // // printf("alloc in zone  %p\n",flst);
     t_zone *tmp;
 
-    // printf("size lst = %zu\n",lst_count(flst));
-    // printf("ici \n");
+    // // printf("size lst = %zu\n",lst_count(flst));
+    // // printf("ici \n");
     tmp = find_first_none_used(flst);
-    // printf("la \n");
+    // // printf("la \n");
     if (tmp == NULL)
     {
-    // printf("/// ADDing///\n");
+    // // printf("/// ADDing///\n");
         
         add_m_lst(NB_ADD_ZONE,size_alloc,flst);
         tmp = find_first_none_used(flst);
         if(tmp == NULL)
         {
-            printf("caca\n");
+            // printf("caca\n");
             return NULL ;
         }
     }
-    // printf("tmp_mem = %p\n",tmp->mem);
+    // // printf("tmp_mem = %p\n",tmp->mem);
     tmp->mem = alloc(size_alloc);
-    // printf("/// proute///\n");
+    // // printf("/// proute///\n");
 
     if (tmp->mem == FAIL_ALLOC)//(tmp == FAIL_ALLOC)
         tmp->mem = NULL;
@@ -46,15 +45,15 @@ void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size)
         tmp->size = size;
         tmp->used = true;
     }
-    // printf("/// SORTIE///\n");
+    // // printf("/// SORTIE///\n");
 
     return (tmp->mem);
-}
+} 
 // void *save_zone(void *)
 // void *ft_malloc(size_t size)
 void *malloc(size_t size)
 {
-    // printf("________________________________________malloc\n");
+    // ft_putendl("_________________________________malloc_call______________\n");
 
     int page_size;
    // int page_size = getpagesize();
@@ -69,6 +68,7 @@ void *malloc(size_t size)
             e->large->next = NULL;
             init = true;
             glob = e;
+            write(1,"init\n",6);
         }
     page_size = ((t_env *)glob)->page_size;
     if (size < page_size * TINY_MULTY_PAGESIZE)
@@ -77,17 +77,17 @@ void *malloc(size_t size)
         return(alloc_in_zone(((t_env *)glob)->small,page_size * SMALL_MULTY_PAGESIZE,size));
     t_zone *tmp;
     tmp =  ((t_env *)glob)->large;
-    // printf("fat\n");
+    // // printf("fat\n");
     while (tmp->next != NULL)
         tmp = tmp->next;
     tmp->next = (t_zone *)alloc(sizeof(t_zone)*1);
     if (tmp->next == (void *) -1 )
         return(NULL) ;
-    // printf("fat\n");
+    // // printf("fat\n");
     tmp = tmp->next;
     init_param(true,size,tmp);
     tmp->size =  size;
-    // printf("voilou %p\n",tmp->mem);    
+    // // printf("voilou %p\n",tmp->mem);    
     return(tmp->mem);
 }
 
