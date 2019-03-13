@@ -4,12 +4,13 @@ endif
 
 NAME = libft_malloc_$(HOSTTYPE).so
 
-FILE = 	ft_malloc.c \
+FILE = 	malloc.c \
 		mylst.c \
 		show_alloc_mem.c \
 		print_func.c \
 		free.c \
 		realloc.c \
+		#ft_malloc.c \
 		#test.c
 
 SRC_PATH = src

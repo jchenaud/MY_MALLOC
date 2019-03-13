@@ -18,7 +18,7 @@ size_t lst_count(t_zone *lst)
     return (i);
 }
 
-void init_param(bool used,size_t mem_size,t_zone *p)
+void init_param_old(bool used,size_t mem_size,t_zone *p)
 {
     p->next = NULL;
     p->used = used;
@@ -32,7 +32,7 @@ void init_param(bool used,size_t mem_size,t_zone *p)
 
 }
 
-void add_m_lst(size_t nb_elem,size_t mem_size,t_zone *lst)
+void add_m_lst_old(size_t nb_elem,size_t mem_size,t_zone *lst)
 {
     t_zone *tmp;
     int i;
@@ -55,7 +55,7 @@ void add_m_lst(size_t nb_elem,size_t mem_size,t_zone *lst)
 
 
 
-t_zone *new_lst(size_t nb_elem,size_t mem_size)
+t_zone *new_lst_old(size_t nb_elem,size_t mem_size)
 {
     int i;
     t_zone *lst;
@@ -85,26 +85,41 @@ t_zone *find_first_none_used(t_zone *first)
 {
     t_zone *tmp;
     tmp = first;
-    // // printf("fisrt  = %p\n",first);
     while (tmp->next != NULL)
     {
-        // // printf("chioooo\n");
-
-        // // printf("tmp = %p \n",tmp);
-        // // printf("in\n");
-        //  // printf("tmp = %p , used = %d\n",tmp->next,tmp->used);
         if(tmp->used == false)
             return(tmp);
         tmp = tmp->next;
-        // if(tmp->used)
-        //     // printf("end boucle\n");
-
-        // // printf("tmp = %p,\n",tmp->next);
-        // // printf("end boucle\n");
     }
-    // // printf("end\n");
     return NULL;
 }
+
+t_zone *find_first_none_used_and_size(t_zone *first,size_t size,size_t max_size) // size tail du malloc max_size taill de la plage
+{
+    t_zone *tmp;
+    t_plage *tmp_p;
+    tmp = first;
+    while (tmp->next != NULL)
+    {
+        if(tmp->used == false)
+        {
+            tmp_p = tmp->pla;
+            t_plage * tmp_plage;
+            tmp_plage = tmp->pla;
+            size_t plage_before = 0;
+            while((tmp_p->val_bigin != SIZE_MAX) || !(tmp_p->size >= size && tmp_p->used == false))
+            {
+                plage_before += tmp_plage->size;
+                tmp_plage = tmp_plage->next;
+            }
+            if(plage_before + size < max_size)
+                return(tmp);// on pourait si on refait une structure retourner avec la plage
+        }
+        tmp = tmp->next;
+    }
+    return NULL;
+}
+
 
 /* recherche ptr dans une zone pour la retourner et modifie sa taille en fonction des maillon libre persu */
 t_zone *find_in_zone(void *ptr, t_zone *first)
