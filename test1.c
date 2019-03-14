@@ -9,7 +9,7 @@ int main(){
     while (i < 1024)
     {
        addr =  (char*) malloc(1024);
-    //    addr[0] = 42;
+       addr[0] = 42;
           i++;
         printf("adr = %p\n",addr);
 

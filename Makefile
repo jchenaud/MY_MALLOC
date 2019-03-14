@@ -35,8 +35,16 @@ $(NAME): $(BRICK)
 	# ranlib libft_malloc_$(HOSTTYPE).so
 	ln -fs $(NAME) libft_malloc.so
 
-test:
-	echo $(HOSTTYPE)
+host:
+	@echo $(HOSTTYPE)
+
+test_true:
+	gcc -o test_true $(SRC) test_true.c  -I include  -I libft libft/libft.a
+
+rm_true:
+	@rm test_true
+
+re_true:rm_true test_true
 
 $(BRICK): $(SRC)
 	@gcc  -o $@ -I include  -I libft -c $<

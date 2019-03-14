@@ -24,7 +24,7 @@
 
 typedef struct	s_plage {
     size_t    val_bigin;
-    // void    *mem;
+    void    *ptr;
     bool    used;
     void    *next;
     size_t  size;
@@ -73,7 +73,7 @@ void    ft_puthexa(void *ptr);//(uint64_t nb);
 
 // mylst.c
 t_zone  *new_lst(size_t nb_elem,size_t mem_size);
-t_zone  *find_first_none_used_and_size(t_zone *first,size_t size,size_t max_size); // size tail du malloc max_size taill de la plage
+t_plage  *find_first_none_used_and_size(t_zone *first,size_t size,size_t max_size); // size tail du malloc max_size taill de la plage
 t_zone  *find_first_none_used(t_zone *first);
 t_zone  *find_in_zone(void *ptr, t_zone *first);
 size_t  find_index_in_zone(void *ptr, t_zone *first);

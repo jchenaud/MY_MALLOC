@@ -18,6 +18,7 @@ void add_plage(size_t nb, t_plage *lst)
      tmp  = lst;
      while (i < nb)
      {
+        tmp->ptr = NULL;
         tmp->val_bigin = SIZE_MAX;
         tmp->used = false;
         tmp->next = alloc(sizeof(t_plage)*1);
@@ -105,14 +106,17 @@ t_zone *new_lst(size_t nb_elem,size_t mem_size)
 
 void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size) // ! size allonc = A N ou M ou max_val
 {
-    t_zone *tmp;
+    ft_putendl("_________________________________ALLOC_INZONE______________\n");
 
-    //tmp = find_first_none_used_and(flst); // ! retravailler pour que la taille de la plage soit < a au moi une plage
+    t_plage *tmp;
+
     tmp = find_first_none_used_and_size(flst,size,size_alloc);
+    ft_putendl("_________________________________ALLOC_INZONE_1______________\n");
+
     if (tmp == NULL)
     {
         add_m_lst(NB_ADD_ZONE,size_alloc,flst);
-        tmp = find_first_none_used(flst);
+        tmp = find_first_none_used_and_size(flst,size,size_alloc);
         if(tmp == NULL)
         {
             return NULL ;
@@ -120,19 +124,7 @@ void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size) // ! size allon
     }
     //tmp->mem = alloc(size_alloc);
     // on cherche dans la premire zone non null la premiere plage suseptible de contenire la taille voulu
-    t_plage * tmp_plage;
-    tmp_plage = tmp->pla;
-    size_t plage_before = 0;
-    while((tmp_plage->val_bigin != SIZE_MAX) || !(tmp_plage->size >= size && tmp_plage->used == false))
-    {
-        plage_before += tmp_plage->size;
-        // tmp->tmp_plage->next;
-        tmp_plage = tmp_plage->next;
-    }
-        tmp_plage->val_bigin = plage_before;
-        tmp_plage->used = true;
-        tmp_plage->size = size;
-    
+    ft_putendl("_________________________________ALLOC_INZONE_2______________\n");    
     // if (tmp->mem == FAIL_ALLOC)//(tmp == FAIL_ALLOC)
     //     tmp->mem = NULL;
     // else
@@ -141,7 +133,8 @@ void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size) // ! size allon
     //     tmp->used = true;
     // }
     // return (tmp->mem);
-    return(tmp->mem + tmp_plage->val_bigin);
+    // return(tmp->mem + tmp_plage->val_bigin);
+    return(tmp->ptr);
 } 
 
 
@@ -151,9 +144,10 @@ void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size) // ! size allon
 void *malloc(size_t size)
 {
     printf("FUCK\n");
+    ft_putendl("_________________________________malloc_call______________\n");
     
-    return NULL;
-     ft_putendl("_________________________________malloc_call______________\n");
+    // return NULL;
+    //  ft_putendl("_________________________________malloc_call______________\n");
      
 
     int page_size;
@@ -176,6 +170,8 @@ void *malloc(size_t size)
             // write(1,"init\n",6);
         }
     page_size = ((t_env *)glob)->page_size;
+    ft_putendl("_________________________________malloc_call_INIT______________\n");
+
     if (size <= n)
         return(alloc_in_zone(((t_env *)glob)->tiny,N,size));//alloc_in_zone(((t_env *)glob)->tiny,n,size));
     if (size < page_size * SMALL_MULTY_PAGESIZE)
