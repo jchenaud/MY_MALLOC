@@ -35,7 +35,7 @@ void init_param_old(bool used,size_t mem_size,t_zone *p)
 void add_m_lst_old(size_t nb_elem,size_t mem_size,t_zone *lst)
 {
     t_zone *tmp;
-    int i;
+    size_t i;
 
     i = 0;
     tmp = lst;
@@ -57,7 +57,7 @@ void add_m_lst_old(size_t nb_elem,size_t mem_size,t_zone *lst)
 
 t_zone *new_lst_old(size_t nb_elem,size_t mem_size)
 {
-    int i;
+    size_t i;
     t_zone *lst;
     t_zone *tmp;
 
@@ -96,7 +96,7 @@ t_zone *find_first_none_used(t_zone *first)
 
 t_plage *find_first_none_used_and_size(t_zone *first,size_t size,size_t max_size) // size tail du malloc max_size taill de la plage
 {
-    ft_putendl("_________________________________find_first_none_used_and_size______________\n");
+    // ft_putendl("_________________________________find_first_none_used_and_size______________\n");
 
     t_zone *tmp;
     t_plage *tmp_p;
@@ -117,7 +117,7 @@ t_plage *find_first_none_used_and_size(t_zone *first,size_t size,size_t max_size
             {
                  if(tmp_p->val_bigin == SIZE_MAX && plage_before + size  + 1 < max_size) // pa sur du +1
                  {
-                    ft_putendl("never_used_plage\n");
+                    // ft_putendl("never_used_plage\n");
                     tmp_p->val_bigin = plage_before;
                     tmp_p->ptr = tmp->mem + plage_before + 1;
                     tmp_p->size = size;
@@ -127,7 +127,7 @@ t_plage *find_first_none_used_and_size(t_zone *first,size_t size,size_t max_size
                  }
                  else if(tmp_p->size >= size && tmp_p->used == false && plage_before + size  + 1 < max_size)
                  {
-                    ft_putendl("used_plage\n");
+                    // ft_putendl("used_plage\n");
                     tmp_p->size = size;
                     tmp_p->used = true;
                     return(tmp_p);
@@ -154,7 +154,7 @@ t_plage *find_first_none_used_and_size(t_zone *first,size_t size,size_t max_size
         }
         tmp = tmp->next;
     }
-        ft_putendl("_________________________________find_first_none_used_and_size_RETURN_NULL______________\n");
+        // ft_putendl("_________________________________find_first_none_used_and_size_RETURN_NULL______________\n");
     return NULL;
 }
 

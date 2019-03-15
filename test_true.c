@@ -5,34 +5,43 @@
 
 int main(){
 
-    // // test 1
-    // printf("coucou\n");
-    
-    // char* addr;
-    // int i = 0;
-    // while (i < 1024)
-    // {
-    //    addr =  (char*) malloc(1024);
-    //    addr[0] = 42;
-    //       i++;
-    //     printf("adr = %p\n",addr);
-    // }
-    // return (0);
+    // test 1
+    printf("coucou\n");
+    // char **spam;
+    //   spam =  (char**) malloc((sizeof(char*)*(1024+1)));
+    printf("coucou\n");
+
+    char* addr;
+    int i = 1;
+    while (i < 10000)
+    {
+       addr =  (char*) malloc(i);
+       addr[0] = 42;
+        i += 100;
+        // if (spam[i])
+        //     spam[i] = addr;
+        printf("i = %d\n",i);
+    }
+    printf("%c\n",addr[0]);
+    free(addr);
+    printf("TEST1 PASS\n");
+
+    return (0);
 
     // test02
-     printf("TEST1 PASS\n");
+    //  printf("TEST1 PASS\n");
     
-    char* addr2;
-    addr2 =  (char*) malloc(1024);
-    int j = 0;
-    while (j < 1024)
-    {
-       addr2 =  (char*) realloc(addr2,j);
-       addr2[0] = 42;
-       j++;
-        printf("adr = %p\n",addr2);
-    }
-    return (0);
+    // char* addr2;
+    // addr2 =  (char*) malloc(1024);
+    // int j = 0;
+    // while (j < 1024)
+    // {
+    //    addr2 =  (char*) realloc(addr2,j);
+    //    addr2[0] = 42;
+    //    j++;
+    //     printf("adr = %p\n",addr2);
+    // }
+    // return (0);
 }
 
 

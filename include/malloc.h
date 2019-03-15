@@ -1,5 +1,5 @@
 //faire la portection double inclusion
-// #include <stdlib.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include<sys/mman.h>
 // #include<unistd.h>
@@ -67,7 +67,7 @@ void *alloc(size_t size);
 // void *ft_malloc(size_t size);
 void *malloc(size_t size);
 
-void *realloc(void *ptr, size_t size);
+//void *realloc(void *ptr, size_t size);
 void show_alloc_mem();
 void    ft_puthexa(void *ptr);//(uint64_t nb);
 

@@ -6,7 +6,8 @@ void *alloc(size_t size)
 {
     // // printf("%d",size);
     // // printf("size allocated %d\n",size);
-    return(mmap(0,size,PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0));
+   return(mmap(0,size,PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0));
+   //return (NULL);
 }
 
 void add_plage(size_t nb, t_plage *lst)
@@ -46,7 +47,7 @@ void init_param(bool used,size_t mem_size,t_zone *p)
         p->mem = NULL;
     }
     p->pla = alloc(sizeof(t_plage)*1); // peut etre faire un span
-    add_plage(100,p->pla);
+    add_plage(1,p->pla);
 
     // p->pla = add_plage(100,p->pla)
 
@@ -57,7 +58,7 @@ void init_param(bool used,size_t mem_size,t_zone *p)
 void add_m_lst(size_t nb_elem,size_t mem_size,t_zone *lst)
 {
     t_zone *tmp;
-    int i;
+    size_t i;
 
     i = 0;
     tmp = lst;
@@ -78,7 +79,7 @@ void add_m_lst(size_t nb_elem,size_t mem_size,t_zone *lst)
 
 t_zone *new_lst(size_t nb_elem,size_t mem_size)
 {
-    int i;
+    size_t i;
     t_zone *lst;
     t_zone *tmp;
 
@@ -106,12 +107,12 @@ t_zone *new_lst(size_t nb_elem,size_t mem_size)
 
 void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size) // ! size allonc = A N ou M ou max_val
 {
-    ft_putendl("_________________________________ALLOC_INZONE______________\n");
+    // ft_putendl("_________________________________ALLOC_INZONE______________\n");
 
     t_plage *tmp;
 
     tmp = find_first_none_used_and_size(flst,size,size_alloc);
-    ft_putendl("_________________________________ALLOC_INZONE_1______________\n");
+    // ft_putendl("_________________________________ALLOC_INZONE_1______________\n");
 
     if (tmp == NULL)
     {
@@ -124,7 +125,7 @@ void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size) // ! size allon
     }
     //tmp->mem = alloc(size_alloc);
     // on cherche dans la premire zone non null la premiere plage suseptible de contenire la taille voulu
-    ft_putendl("_________________________________ALLOC_INZONE_2______________\n");    
+    // ft_putendl("_________________________________ALLOC_INZONE_2______________\n");    
     // if (tmp->mem == FAIL_ALLOC)//(tmp == FAIL_ALLOC)
     //     tmp->mem = NULL;
     // else
@@ -143,8 +144,8 @@ void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size) // ! size allon
 
 void *malloc(size_t size)
 {
-    printf("FUCK\n");
-    ft_putendl("_________________________________malloc_call______________\n");
+    // printf("FUCK\n");
+    // ft_putendl("_________________________________malloc_call______________\n");
     
     // return NULL;
     //  ft_putendl("_________________________________malloc_call______________\n");
@@ -153,10 +154,10 @@ void *malloc(size_t size)
     int page_size;
     
     // a passer dans le point h 
-    int N = 4096;
-    int n = N/100;
-    int M = N*2;
-    int m = M/100;
+    size_t N = 4096;
+    size_t n = N/100;
+    size_t M = N*2;
+    size_t m = M/100;
     if(init == false)
         {
             t_env *e = (t_env *)alloc(sizeof(t_env)*1);
@@ -170,11 +171,11 @@ void *malloc(size_t size)
             // write(1,"init\n",6);
         }
     page_size = ((t_env *)glob)->page_size;
-    ft_putendl("_________________________________malloc_call_INIT______________\n");
+    // ft_putendl("_________________________________malloc_call_INIT______________\n");
 
     if (size <= n)
         return(alloc_in_zone(((t_env *)glob)->tiny,N,size));//alloc_in_zone(((t_env *)glob)->tiny,n,size));
-    if (size < page_size * SMALL_MULTY_PAGESIZE)
+    if (size < (size_t)(page_size * SMALL_MULTY_PAGESIZE))
         return(alloc_in_zone(((t_env *)glob)->small,M,size));//alloc_in_zone(((t_env *)glob)->small,page_size * SMALL_MULTY_PAGESIZE,size));
     t_zone *tmp;
     tmp =  ((t_env *)glob)->large;
