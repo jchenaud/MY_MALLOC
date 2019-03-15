@@ -13,21 +13,22 @@ void *alloc(size_t size)
 void add_plage(size_t nb, t_plage *lst)
 {
      t_plage *tmp;
-     t_plage **tmp_span;
+      t_plage **tmp_span;
 
      size_t i;
 
      i = 0 ;
      tmp  = lst;
-    *tmp_span = (t_plage*)alloc(sizeof(t_plage)*nb);
-
+     tmp_span = (t_plage**)alloc(sizeof(t_plage)*nb+1);
+     tmp_span[nb] = NULL;
      while (i < nb)
      {
         tmp->ptr = NULL;
         tmp->val_bigin = SIZE_MAX;
         tmp->used = false;
+        tmp_span[i] = tmp_span + (sizeof(t_plage)*i+1); //mmap(tmp_span[i],(sizeof(t_plage)*1),PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0);
         tmp->next = tmp_span[i];
-        // \\tmp->next = alloc(sizeof(t_plage)*1);
+        // tmp->next = alloc(sizeof(t_plage)*1);
         if(!tmp->next)
         {
             ft_putendl("alloc erno");
