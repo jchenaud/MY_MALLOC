@@ -13,16 +13,21 @@ void *alloc(size_t size)
 void add_plage(size_t nb, t_plage *lst)
 {
      t_plage *tmp;
+     t_plage **tmp_span;
+
      size_t i;
 
      i = 0 ;
      tmp  = lst;
+    *tmp_span = (t_plage*)alloc(sizeof(t_plage)*nb);
+
      while (i < nb)
      {
         tmp->ptr = NULL;
         tmp->val_bigin = SIZE_MAX;
         tmp->used = false;
-        tmp->next = alloc(sizeof(t_plage)*1);
+        tmp->next = tmp_span[i];
+        // \\tmp->next = alloc(sizeof(t_plage)*1);
         if(!tmp->next)
         {
             ft_putendl("alloc erno");
@@ -47,7 +52,7 @@ void init_param(bool used,size_t mem_size,t_zone *p)
         p->mem = NULL;
     }
     p->pla = alloc(sizeof(t_plage)*1); // peut etre faire un span
-    add_plage(1,p->pla);
+    add_plage(10,p->pla);
 
     // p->pla = add_plage(100,p->pla)
 
