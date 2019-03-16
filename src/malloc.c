@@ -12,6 +12,8 @@ void *alloc(size_t size)
 
 void add_plage(size_t nb, t_plage *lst)
 {
+    printf("euuue\n");
+
      t_plage *tmp;
       t_plage **tmp_span;
 
@@ -20,24 +22,55 @@ void add_plage(size_t nb, t_plage *lst)
      i = 0 ;
      tmp  = lst;
      tmp_span = (t_plage**)alloc(sizeof(t_plage)*nb+1);
-     tmp_span[nb] = NULL;
+    void *adr = &tmp_span;
+    //     printf("adr = %p,tmp_spna = %p\n",adr,tmp_span);
+
+    //  tmp_span[nb] = NULL;
+    // i =1;
      while (i < nb)
      {
+
         tmp->ptr = NULL;
         tmp->val_bigin = SIZE_MAX;
         tmp->used = false;
-        tmp_span[i] = tmp_span + (sizeof(t_plage)*i+1); //mmap(tmp_span[i],(sizeof(t_plage)*1),PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0);
+        
+            void *adr = &tmp_span;
+            // tmp_span[i] = tmp_span + (sizeof(t_plage)*i+1); // JASONITE
+            tmp_span[i] = (void*)(tmp_span + (sizeof(t_plage)*i+1)); // JASONITE
+
+            //tmp_span[i] = (t_plage **)(adr) + (sizeof(t_plage)*i+1); // JASONITE
+
+            // adr += (sizeof(t_plage));
+            // tmp_span[i] = adr;
+        //tmp_span[i] = adr + (sizeof(t_plage*)*i+1);
+        // printf("v1 = %lu , v2 = %lu\n",tmp_span + (sizeof(t_plage)*i+1),adr + (sizeof(t_plage*)*i+1));
+        //  printf(" tmp_span[i] = %p, adrspna = %p\n", tmp_span[i],adr + (sizeof(t_plage)*(i+1)));
+         printf("sizeof span [%d] \n",i);//, sizeof addr %d\n",sizeof(tmp_span),sizeof(adr));
+
+
+        // tmp_span[i] = *(tmp_span + (sizeof(t_plage)*i+1));
+        // printf(" i ===== %p,%p\n",tmp_span[i],tmp_span);
+        // adr = adr + (sizeof(t_plage)*i+1);
+        // tmp_span[i] = adr ; //mmap(tmp_span[i],(sizeof(t_plage)*1),PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0);
         tmp->next = tmp_span[i];
+        //  printf("plopp [%d] \n",i);//, sizeof addr %d\n",sizeof(tmp_span),sizeof(adr));
+
         // tmp->next = alloc(sizeof(t_plage)*1);
         if(!tmp->next)
         {
             ft_putendl("alloc erno");
             return ;
         }
+        //  printf("pp [%d] \n",i);//, sizeof addr %d\n",sizeof(tmp_span),sizeof(adr));
+
         tmp = tmp->next;
         i++;
+        //  printf("vichy [%d] \n",i);//, sizeof addr %d\n",sizeof(tmp_span),sizeof(adr));
+
      }
      tmp->next = NULL ;
+        //  printf("karamool[%d] \n",i);//, sizeof addr %d\n",sizeof(tmp_span),sizeof(adr));
+
 }
 
 void init_param(bool used,size_t mem_size,t_zone *p)
@@ -84,19 +117,34 @@ void add_m_lst(size_t nb_elem,size_t mem_size,t_zone *lst)
 
 
 t_zone *new_lst(size_t nb_elem,size_t mem_size)
-{
+{ //465
     size_t i;
-    t_zone *lst;
+    t_zone *lst; 
     t_zone *tmp;
 
     i = 0;
+    // size_t mem_alloc_size;
+    // size_t page_size = getpagesize();
+    // size_t repeat = 0;
+    // while (mem_alloc_size < page_size)
+    // {
+    //     mem_alloc_size += sizeof(t_zone *);
+    //     repeat ++;
+    // }
+    // repeat--;
+    // t_zone **tmp_span;
+    // tmp_span = (t_zone**)alloc(sizeof(t_plage)*repeat);
     lst = (t_zone *)alloc(sizeof(t_zone *)*1);
     if (lst == (void *) -1 )
         return NULL;
     tmp = lst;
+    // lst = tmp_span[0];
     init_param(false,mem_size,lst);
-    while (i < nb_elem)
+    // i = 1;
+    while (i < nb_elem)//(i < nb_elem)
     {
+        // tmp_span[i] = tmp_span[i-1] + (sizeof(t_zone)*i);
+        // lst->next = tmp_span[i];
         lst->next = (t_zone *)alloc(sizeof(t_zone)*1);
         if (lst->next == (void *) -1 )
             return NULL;

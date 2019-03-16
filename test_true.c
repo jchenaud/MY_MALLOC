@@ -7,22 +7,30 @@ int main(){
 
     // test 1
     printf("coucou\n");
-    // char **spam;
-    //   spam =  (char**) malloc((sizeof(char*)*(1024+1)));
+    char **spam;
+       spam =  (char**) malloc((sizeof(char*)*(1024+1)));
     printf("coucou\n");
-
+spam[1024] =NULL;
     char* addr;
-    int i = 1;
-    while (i < 10000)
+    int i = 0;
+    while (i < 1024)
     {
        addr =  (char*) malloc(i);
        addr[0] = 42;
-        i += 100;
+       addr[1] = i %42 +22;
+        spam[i] = addr;
+
+        i += 1;
         // if (spam[i])
-        //     spam[i] = addr;
         printf("i = %d\n",i);
     }
     printf("%c\n",addr[0]);
+    int k = 0;
+    while(k < 100)
+    {
+        printf("spam [%d] = %s\n",k,spam[k]);
+        k++;
+    }
     free(addr);
     printf("TEST1 PASS\n");
 
