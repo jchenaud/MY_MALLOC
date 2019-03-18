@@ -52,6 +52,7 @@ typedef struct	s_env {
     t_zone  *tiny;
     t_zone  *small;
     t_zone  *large;
+    t_plage *buff_plage;
     size_t  page_size;
 	
 }				t_env;
@@ -74,6 +75,8 @@ void    ft_puthexa(void *ptr);//(uint64_t nb);
 // mylst.c
 t_zone  *new_lst(size_t nb_elem,size_t mem_size);
 t_plage  *find_first_none_used_and_size(t_zone *first,size_t size,size_t max_size); // size tail du malloc max_size taill de la plage
+t_plage *get_plage();
+
 t_zone  *find_first_none_used(t_zone *first);
 t_zone  *find_in_zone(void *ptr, t_zone *first);
 size_t  find_index_in_zone(void *ptr, t_zone *first);

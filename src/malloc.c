@@ -14,13 +14,14 @@ void *alloc(size_t size)
 t_plage  *add_plage(size_t nb, t_plage *lst)
 {
     // printf("euuue\n");
+    printf("in_add_plage\n");
 
      t_plage *tmp;
      t_plage **tmp_span;
      size_t i;
      i = 0 ;
     tmp_span = (t_plage**)alloc(sizeof(t_plage)*nb+1);
-
+ printf("tmp_snsize = %d   \n",sizeof(t_plage)*nb+1);
 
      if(lst != NULL)
      {
@@ -39,6 +40,7 @@ t_plage  *add_plage(size_t nb, t_plage *lst)
 
     //  tmp_span[nb] = NULL;
     // i =1;
+    printf("in_add_plage_while i =  %zu    nb = %zu\n",i,nb);
 
      while (i < nb)
      {
@@ -48,6 +50,9 @@ t_plage  *add_plage(size_t nb, t_plage *lst)
         tmp->used = false;
             // tmp_span[i] = tmp_span + (sizeof(t_plage)*i+1); // JASONITE
             tmp_span[i] = (void*)(tmp_span + (sizeof(t_plage)*i)); // JASONITE
+            //printf("plage assigner at %d  \n",(void*)(tmp_span + (sizeof(t_plage)*i)) - (void*)(tmp_span + (sizeof(t_plage)*(i-1))));
+            printf("tmp_snsize = %d   \n",(sizeof(t_plage)*i));
+
             // ft_bzero(tmp_span[i],(sizeof(t_plage)*1));
 
         tmp->next = tmp_span[i];
@@ -62,8 +67,30 @@ t_plage  *add_plage(size_t nb, t_plage *lst)
      tmp->next = NULL ;
     // printf("page exit = %p\n",lst);
 
-    //  printf("la chisse\n");
+    printf("out_add_plage\n");
     return (lst);
+}
+
+t_plage *get_plage()
+{
+    printf("get_plage in\n");
+    t_env *e = ((t_env *)glob);
+
+    t_plage *tmp;
+    tmp = e->buff_plage; 
+    printf("get_plage in\n");
+
+    if( e->buff_plage->next != NULL)
+        e->buff_plage =e->buff_plage->next;
+    else
+    {
+        e->buff_plage->next = add_plage(35, e->buff_plage);
+        e->buff_plage =e->buff_plage->next;
+    }
+    tmp->next = NULL;
+    printf("get_plage out\n");
+
+    return(tmp);
 }
 
 void init_param(bool used,size_t mem_size,t_zone *p)
@@ -76,14 +103,10 @@ void init_param(bool used,size_t mem_size,t_zone *p)
         // printf("its fuking append\n");
         p->mem = NULL;
     }
-    // p->pla = alloc(sizeof(t_plage)*1); // peut etre faire un span
-    p->pla = NULL;
-    p->pla = add_plage(10,p->pla);
-    // printf("page exit = %p\n",p->pla);
 
-    // p->pla = add_plage(100,p->pla)
- 
-    // // printf("tmp->mem = %p\n",p->mem);
+    p->pla = get_plage();
+   // p->pla = NULL;
+    //p->pla = add_plage(10,p->pla);
 
 }
 
@@ -201,7 +224,7 @@ void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size) // ! size allon
 
 void *malloc(size_t size)
 {
-    // printf("Zone size = %lu , plage_size  = %lu\n",sizeof(t_zone),sizeof(t_plage));//40 40
+    printf("Zone size = %lu , plage_size  = %lu\n",sizeof(t_zone),sizeof(t_plage)*35);//40 40
     // ft_putendl("_________________________________malloc_call____ __________\n");
     
     // return NULL; 
@@ -217,12 +240,24 @@ void *malloc(size_t size)
     size_t m = M/100;
     if(init == false)
         {
+            printf("init in\n");
+
             t_env *e = (t_env *)alloc(sizeof(t_env)*1);
+            printf("Buff_plage_init in\n");
+
+            e->buff_plage = NULL;
+            e->buff_plage = add_plage(35,e->buff_plage);
+
+            printf("Buff_plage_init out\n");
+
             e->page_size = getpagesize();
             e->tiny = new_lst(TINY_LS,N);
             e->small = new_lst(SMALL_LS,M);
+            printf("EUUU\n");
+
             e->large = (t_zone *)alloc(sizeof(t_zone)*1);
             e->large->next = NULL;
+            
             init = true;
             glob = e;
             // write(1,"init\n",6);
