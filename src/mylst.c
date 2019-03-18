@@ -136,21 +136,7 @@ t_plage *find_first_none_used_and_size(t_zone *first,size_t size,size_t max_size
                  tmp_plage = tmp_plage->next;
 
             }
-            // while((tmp_p->val_bigin != SIZE_MAX) && !(tmp_p->size >= size && tmp_p->used == false))
-            // {
-            // //ft_putendl("_________________________________find_first_none_used_and_size_3______________\n");
-            //     printf("valbigin = %d\n,size = tmp_size = %zu && %d,\n",tmp_p->val_bigin,tmp_p->size,SIZE_MAX);
-            //     // if(tmp_p->val_bigin == SIZE_MAX)
-            //     //     printf ("WHUUUU\n");
-            //     plage_before += tmp_plage->size;
-            //     tmp_plage = tmp_plage->next;
-            // }
-            // if(plage_before + size < max_size)
-            // {
-            //     ft_putendl("_________________________________find_first_none_used_and_size_4______________\n");
-
-            //     return(tmp);// on pourait si on refait une structure retourner avec la plage
-            // }
+           
         }
         tmp = tmp->next;
     }

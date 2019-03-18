@@ -90,15 +90,20 @@ void init_param(bool used,size_t mem_size,t_zone *p)
 void add_m_lst(size_t nb_elem,size_t mem_size,t_zone *lst)
 {
     t_zone *tmp;
+    t_zone **tmp_span;
+
     size_t i;
 
     i = 0;
     tmp = lst;
     while(tmp->next != NULL)
         tmp = tmp->next;
+    tmp_span = (t_zone**)alloc(sizeof(t_zone)*nb_elem+1);
+    // tmp_span[0] = (void*)(tmp_span + (sizeof(t_zone)));
      while (i < nb_elem)
     {
-        tmp->next = (t_zone *)alloc(sizeof(t_zone)*1);
+        tmp->next =  tmp_span[i] = (void*)(tmp_span + (sizeof(t_zone)*i));
+        // tmp->next = (t_zone *)alloc(sizeof(t_zone)*1);
         if (tmp->next == (void *) -1 )
             return ;
         tmp = tmp->next;
@@ -196,12 +201,12 @@ void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size) // ! size allon
 
 void *malloc(size_t size)
 {
-    // printf("FUCK\n");
-    // ft_putendl("_________________________________malloc_call______________\n");
+    // printf("Zone size = %lu , plage_size  = %lu\n",sizeof(t_zone),sizeof(t_plage));//40 40
+    // ft_putendl("_________________________________malloc_call____ __________\n");
     
-    // return NULL;
-    //  ft_putendl("_________________________________malloc_call______________\n");
-     
+    // return NULL; 
+    //  ft_putendl("_________________________________malloc_call___________ ___\n"); 
+      
 
     int page_size;
     

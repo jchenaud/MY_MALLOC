@@ -10,13 +10,13 @@
 #include"libft.h" 
 #include <stdio.h> // a enlever
 
-#define TINY_LS 1
+#define TINY_LS 10
 #define TINY_MULTY_PAGESIZE 1
 
-#define SMALL_LS 1
+#define SMALL_LS 10
 #define SMALL_MULTY_PAGESIZE 2
 
-#define NB_ADD_ZONE  1
+#define NB_ADD_ZONE  75 //50
 
 #define FAIL_ALLOC (void *) -1
 
