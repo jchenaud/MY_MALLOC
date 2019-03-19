@@ -25,10 +25,10 @@ void init_param_old(bool used,size_t mem_size,t_zone *p)
     p->mem = alloc(mem_size);
     if (p->mem == (void *) -1)
     {
-        // printf("its fuking append\n");
+        // //printf("its fuking append\n");
         p->mem = NULL;
     }
-    // // printf("tmp->mem = %p\n",p->mem);
+    // // //printf("tmp->mem = %p\n",p->mem);
 
 }
 
@@ -50,7 +50,7 @@ void add_m_lst_old(size_t nb_elem,size_t mem_size,t_zone *lst)
         init_param(false,mem_size,tmp);
         i++;
     }
-    // // printf("tmp->next =  %p for tmp = %p ,lst count %zu\n",tmp->next,tmp,lst_count(lst));
+    // // //printf("tmp->next =  %p for tmp = %p ,lst count %zu\n",tmp->next,tmp,lst_count(lst));
 }
 
 
@@ -74,10 +74,10 @@ t_zone *new_lst_old(size_t nb_elem,size_t mem_size)
             return NULL;
         lst = lst->next;
         init_param(false,mem_size,lst);
-        // // printf("%d\n",lst->used);
+        // // //printf("%d\n",lst->used);
         i++;
     }
-    // // printf("lst_count(lst) %zu \n",lst_count(lst));
+    // // //printf("lst_count(lst) %zu \n",lst_count(lst));
     return(tmp);
 }
 
@@ -96,11 +96,14 @@ t_zone *find_first_none_used(t_zone *first)
 
 t_plage *find_first_none_used_and_size(t_zone *first,size_t size,size_t max_size) // size tail du malloc max_size taill de la plage
 {
+    max_size = 4096;
     // ft_putendl("_________________________________find_first_none_used_and_size______________\n");
 
     t_zone *tmp;
     t_plage *tmp_p;
     tmp = first;
+    size_t plage_before = 0;
+
     while (tmp->next != NULL)
     {
     // ft_putendl("_________________________________find_first_none_used_and_size_1______________\n");
@@ -110,12 +113,19 @@ t_plage *find_first_none_used_and_size(t_zone *first,size_t size,size_t max_size
         // ft_putendl("_________________________________find_first_none_used_and_size_2______________\n");
 
             tmp_p = tmp->pla;
-            t_plage * tmp_plage;
-            tmp_plage = tmp->pla;
-            size_t plage_before = 0;
-            while(tmp_plage)//(tmp_plage->next != NULL)
+            // t_plage * tmp_plage;
+            // tmp_plage = tmp->pla;
+            plage_before = 0;
+            while(tmp_p)//(tmp_plage->next != NULL)
             {
-                 if(tmp_p->val_bigin == SIZE_MAX && plage_before + size  + 1 < max_size) // pa sur du +1
+                if (plage_before + size  >= max_size)
+                {
+                    //printf("i find you fdp %d\n",max_size);
+            plage_before = 0;
+
+                    break;
+                }
+                 if(tmp_p->val_bigin == SIZE_MAX && plage_before + size < max_size) // pa sur du +1
                  {
                     // ft_putendl("never_used_plage\n");
                     tmp_p->val_bigin = plage_before;
@@ -125,18 +135,39 @@ t_plage *find_first_none_used_and_size(t_zone *first,size_t size,size_t max_size
                     return(tmp_p);
 
                  }
-                 else if(tmp_p->size >= size && tmp_p->used == false && plage_before + size  + 1 < max_size)
+                 else if(tmp_p->size >= size && tmp_p->used == false && plage_before + size  < max_size)
                  {
                     // ft_putendl("used_plage\n");
                     tmp_p->size = size;
                     tmp_p->used = true;
                     return(tmp_p);
                  }
-                 plage_before += tmp_plage->size;
-                 if(tmp_plage->next == NULL &&  plage_before + size  + 1 < max_size )
-                    tmp_plage->next = get_plage();
+                 plage_before += tmp_p->size;
+                 if(tmp_p->next == NULL &&  plage_before + size  < max_size )
+                 {
+                    //printf("call by find_first_none_used_and_size :\n");
+                    tmp_p->next = get_plage();
+                    tmp_p = tmp_p->next;
+                    tmp_p->size = size;
+                    tmp_p->used = true;
+                    tmp_p->val_bigin = plage_before;
 
-                 tmp_plage = tmp_plage->next;
+                    tmp_p->ptr = tmp->mem + plage_before + 1;
+
+                    // //printf("return of find_first_none_used_and_size\n");
+                    return(tmp_p);
+
+                 }
+                // //printf("tmp_p = %p ,  and next = %p \n",tmp_p,tmp_p->next);
+                // t_plage *tmp_p_tmp;
+                // tmp_p_tmp = tmp_p;
+                tmp_p = tmp_p->next;
+
+                //  if(tmp_p  == tmp_p_tmp)
+                //  {
+                //     //printf("fuck_off\n");
+                //     break;
+                //  }
 
             }
            
@@ -158,19 +189,19 @@ t_zone *find_in_zone(void *ptr, t_zone *first)
     i = 0;
     while (tmp->mem != ptr)
     {
-        // // printf("%p // %p\n",tmp,ptr);
+        // // //printf("%p // %p\n",tmp,ptr);
         if (tmp->next != NULL)
             tmp = tmp->next;
         else
         {
-            // // printf("pas ici\n");
+            // // //printf("pas ici\n");
 
             return(NULL);
         }
         // if(tmp->used == false)
         //     i++;
     }
-    // // printf("normall out\n");
+    // // //printf("normall out\n");
     // tmp->size = i;
     return tmp;
 }
@@ -184,12 +215,12 @@ size_t find_index_in_zone(void *ptr, t_zone *first)
     i = 0;
     while (tmp->mem != ptr)
     {
-        //  // printf("%p // %p\n",tmp->mem,ptr);
+        //  // //printf("%p // %p\n",tmp->mem,ptr);
         if (tmp->next != NULL)
             tmp = tmp->next;
         else
         {
-            // // printf("pas ici\n");
+            // // //printf("pas ici\n");
 
             return(-1);
         }
@@ -197,7 +228,7 @@ size_t find_index_in_zone(void *ptr, t_zone *first)
         // if(tmp->used == false)
         //     i++;
     }
-    // // printf("normall out\n");
+    // // //printf("normall out\n");
     // tmp->size = i;
     return i;
 }

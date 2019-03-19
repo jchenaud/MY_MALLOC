@@ -15,19 +15,26 @@ spam[1024] =NULL;
     int i = 0;
     while (i < 1024)
     {
+        printf("i = %d\n",i);
+
        addr =  (char*) malloc(i);
        addr[0] = 42;
        addr[1] = i %42 +22;
+    //    addr[3] ='\0';
+
+        // printf("%s\n",addr);
+
         spam[i] = addr;
 
         i += 1;
         // if (spam[i])
-        printf("i = %d\n",i);
     }
     printf("%c\n",addr[0]);
     int k = 0;
     while(k < 100)
     {
+        printf("spam [%d] = %s\n",k,spam[k]);
+        spam[k] = "Yolo";
         printf("spam [%d] = %s\n",k,spam[k]);
         k++;
     }
