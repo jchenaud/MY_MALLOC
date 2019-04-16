@@ -5,11 +5,11 @@ endif
 NAME = libft_malloc_$(HOSTTYPE).so
 
 FILE = 	malloc.c \
-		mylst.c \
-		show_alloc_mem.c \
-		print_func.c \
-		free.c \
-		realloc.c \
+		#mylst.c \
+		#show_alloc_mem.c \
+		#print_func.c \
+		#free.c \
+		#realloc.c \
 		#ft_malloc.c \
 		#test.c
 
@@ -30,13 +30,13 @@ $(NAME): $(BRICK)
 	# cd ..
 	# gcc  $(SRC)  -I include  -I libft libft/libft.a
 	# ar rc $(NAME) $(BRICK)
-	@gcc  -shared -o $(NAME) $(FLAG) -I include  -I libft libft/libft.a  $(SRC)
+	gcc  -shared -o $(NAME) $(FLAG) -I include  -I libft libft/libft.a  $(SRC)
 	# ar rc $(NAME) $(BRICK)
 	# ranlib libft_malloc_$(HOSTTYPE).so
 	ln -fs $(NAME) libft_malloc.so
 
 host:
-	@echo $(HOSTTYPE)
+	echo $(HOSTTYPE)
 
 test_true:
 	gcc -o test_true $(SRC) test_true.c  -I include  -I libft libft/libft.a
