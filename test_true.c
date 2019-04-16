@@ -4,44 +4,66 @@
 #include <stdio.h>
 
 int main(){
+        printf("coucou\n");
 
-    // test 1
-    printf("coucou\n");
-    char **spam;
-       spam =  (char**) malloc((sizeof(char*)*(1024+1)));
-    printf("coucou\n");
-spam[1024] =NULL;
-    char* addr;
+    char** tab = (char**) malloc(sizeof(char*) * 1025) ;
     int i = 0;
     while (i < 1024)
     {
-        printf("i = %d\n",i);
+         printf("%d\n",i);
 
-       addr =  (char*) malloc(i);
-       addr[0] = 42;
-       addr[1] = i %42 +22;
-    //    addr[3] ='\0';
-
-        // printf("%s\n",addr);
-
-        spam[i] = addr;
-
-        i += 1;
-        // if (spam[i])
+         tab[i] = (char*) malloc(sizeof(char)*10);
+         i++;
     }
-    printf("%c\n",addr[0]);
-    int k = 0;
-    while(k < 100)
+    tab[i] = NULL;
+    // tab = (char*) malloc(100);
+    // return (0);
+    i = 0;
+    while(tab[i])
     {
-        printf("spam [%d] = %s\n",k,spam[k]);
-        spam[k] = "Yolo";
-        printf("spam [%d] = %s\n",k,spam[k]);
-        k++;
+        printf("%d\n",i);
+        i++;
     }
-    free(addr);
-    printf("TEST1 PASS\n");
+     return (0);
+}
 
-    return (0);
+    // test 1
+//     printf("coucou\n");
+//     char **spam;
+//        spam =  (char**) malloc((sizeof(char*)*(1024+1)));
+//     printf("coucou\n");
+// spam[1024] =NULL;
+//     char* addr;
+//     int i = 0;
+//     while (i < 1024)
+//     {
+//         printf("i = %d\n",i);
+
+//        addr =  (char*) malloc(i);
+//        addr[0] = 42;
+//        addr[1] = i %42 +22;
+//     //    addr[3] ='\0';
+
+//         // printf("%s\n",addr);
+
+//         spam[i] = addr;
+
+//         i += 1;
+//         // if (spam[i])
+//     }
+//     printf("%c\n",addr[0]);
+//     int k = 0;
+//     while(k < 100)
+//     {
+//         printf("spam [%d] = %s\n",k,spam[k]);
+//         spam[k] = "Yolo";
+//         printf("spam [%d] = %s\n",k,spam[k]);
+//         k++;
+//     }
+//     free(addr);
+//     printf("TEST1 PASS\n");
+
+//     return (0);
 
     // test02
     //  printf("TEST1 PASS\n");
@@ -57,7 +79,7 @@ spam[1024] =NULL;
     //     printf("adr = %p\n",addr2);
     // }
     // return (0);
-}
+//}
 
 
 // int main()
