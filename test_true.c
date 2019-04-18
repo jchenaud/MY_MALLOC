@@ -24,8 +24,8 @@ int main(){
 
     my_test_1();
     printf("__________________TEST1____PASS");
-    my_test1_multy(200);
-    printf("__________________TEST1_MULTY____PASS");
+    // my_test1_multy(200);
+    // printf("__________________TEST1_MULTY____PASS");
 
 
 

@@ -7,9 +7,9 @@ void *alloc(size_t size)
    return(mmap(0,size,PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0));
 }
 
-void my_print_lst(t_zone *flst)
+void my_print_lst(t_zone **flst)
 {
-    t_zone *tmp = flst;
+    t_zone *tmp = (*flst);
 
     int i = 0;
     printf("start_print\n");
@@ -17,16 +17,16 @@ void my_print_lst(t_zone *flst)
     {
         printf("on %d element on lst \t used = %d \t\n",i,tmp->used);
         i++;
-        tmp =  tmp->next;
+        tmp = tmp->next;
     }
 }
 
-   t_zone*    add_one_page_zone(t_zone *flst,size_t size_alloc)
+   void    add_one_page_zone(t_zone **flst,size_t size_alloc)
    {
        size_t reapit;
        t_zone *tmp;
     
-       printf("get_p_size %zu,t_zone size %zu, size_aloc %zu\n",getpagesize(),sizeof(t_zone),size_alloc);
+       printf("get_p_size %zu,t_zone size %zu, size_aloc %zu , flst = %p\n",getpagesize(),sizeof(t_zone),size_alloc , *flst);
        reapit = (getpagesize()  - sizeof(t_zone)) / (sizeof(t_zone) + size_alloc); // on recupere le nobre de zone +struct que l'on peut metre dans une page en gardan une place final pour une struct
       // printf("ripeat = %zu\n",reapit);
        void *p = alloc(getpagesize());
@@ -36,20 +36,21 @@ void my_print_lst(t_zone *flst)
         int i = 0;
 
      // printf("p = %p\n ",p);
-        if(flst == NULL)
+        if((*flst) == NULL)
         {
-          //  printf("TMP = NULL\n");
-            flst = p;
-            flst->used = false;
-            flst->next =  NULL;
-            flst->mem = p+sizeof(t_zone);
-            flst->size = SIZE_MAX;
+            printf("TMP = NULL\n");
+            (*flst) = p;
+            (*flst)->used = false;
+            (*flst)->next =  NULL;
+            (*flst)->mem = p+sizeof(t_zone);
+            (*flst)->size = SIZE_MAX;
             i++;
            // printf("TMP = NULL _ out\n");
 
         }
+        printf("end %d Flst %p\n",i,*flst);
 
-        tmp = flst;
+        tmp = (*flst);
         
         tmp->next = p+sizeof(t_zone)+(size_alloc * i);
         i=1;
@@ -66,27 +67,27 @@ void my_print_lst(t_zone *flst)
             //printf("end ? %d\n",i);
 
        }
-       tmp = tmp->next;
+       tmp= tmp->next;
        tmp->used =  -1;
        tmp->next = NULL; 
 
-       // printf("end %d Flst %p\n",i,flst);
-       return flst;
+        printf("end %d Flst %p\n",i,*flst);
+       //return flst;
        
    }
 
 
 void *alloc_in_zone(t_zone *flst, size_t size_alloc,size_t size) // ! size allonc = A N ou M ou max_val
 {
-    printf("alloc_in_zone_is_call\n");
+    printf("alloc_in_zone_is_call flst =  %p\n",flst);
 
     if(flst == NULL) // first passage
     {
-       flst =  add_one_page_zone(flst,size_alloc);
-     //  my_print_lst(flst);
+      add_one_page_zone(&flst,size_alloc);
+      my_print_lst(&flst);
     }
-    printf("flst %p , tiny %p ,",flst,g_e.tiny);
-    t_zone *tmp;
+    printf("flst %p , tiny %p \n",flst,g_e.tiny);
+    t_zone *tmp; 
     tmp = flst;
     while(tmp){
         if(tmp->used == 0){
