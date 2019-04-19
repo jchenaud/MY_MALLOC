@@ -15,11 +15,7 @@ void my_print_lst(t_zone **flst)
     printf("start_print\n");
     while(tmp != NULL)
     {
-        // printf("ici\n");
-       // if(tmp->used)
         printf("on %d element on lst \t used = %d \t next = %p \n",i,tmp->used,tmp->next);
-       // printf("la\n");
-
         i++;
 
         tmp = tmp->next;
@@ -33,9 +29,6 @@ void my_print_lst(t_zone **flst)
    {
        size_t reapit;
        t_zone *tmp;
-    
-    //   printf("get_p_size %zu,t_zone size %zu, size_aloc %zu , flst = %p\n",getpagesize(),sizeof(t_zone),size_alloc , *flst);
-
         reapit = 0;
         int k = 1;
         while (reapit < 100)
@@ -43,140 +36,131 @@ void my_print_lst(t_zone **flst)
             reapit = (getpagesize()*k  - sizeof(t_zone)) / (sizeof(t_zone) + size_alloc); // on recupere le nobre de zone +struct que l'on peut metre dans une page en gardan une place final pour une struct
             k++;
         }
-       printf("ripeat = %zu , k = %d\n",reapit,k);
        void *p = alloc(getpagesize() * k);
-
-       // tmp  = flst;
-
-        int i = 0;
-
-     // printf("p = %p\n ",p);
-        if((*flst) == NULL)
+       if(p == FAIL_ALLOC)
+        return ;
+       int i = 0;
+       if((*flst) == NULL)
         {
-            printf("TMP = NULL\n"); 
             (*flst) = p;
             (*flst)->used = false;
             (*flst)->next =  NULL;
             (*flst)->mem = p+sizeof(t_zone);
             (*flst)->size = SIZE_MAX;
             i++;
-           // printf("TMP = NULL _ out\n");
-
         }
-        //printf("init %d Flst %p\n",i,*flst);
         tmp = (*flst);
-         //avant ca il faudra aller a la fin de tmp
         int skip = 0;
         while(tmp->next)
         {
             tmp = tmp->next;
             skip++;
         }
-        // printf("skip %d, tmp %p ,  tmp_next = %p\n",skip,tmp,tmp->next);
         tmp->next = p+sizeof(t_zone)+(size_alloc * 1);
-        // printf(", tmp %p  used = %d , tmp_next = %p\n",tmp,tmp->used,tmp->next);
-
         i=1;
 
        while(i < reapit)
        {
-           // printf("ici ? %d\n",i);
             tmp = tmp->next;
             tmp->used = false;
             tmp->mem = p+ (sizeof(t_zone)*i) +(size_alloc * (i - 1)); // -1 pour etre au debut de la zone pas a la fin
             tmp->size = SIZE_MAX;
             tmp->next = p+(sizeof(t_zone)*i)+(size_alloc * i); 
             i++;
-            //printf("end ? %d\n",i);
-
        }
        tmp= tmp->next;
        tmp->used =  -1;
        tmp->next = NULL; 
        tmp->mem =   NULL;
-
-        printf("end %d tmp %p\n",i,tmp);
-        // my_print_lst(flst);
-       //return flst;
-       
+       // printf("end %d tmp %p\n",i,tmp);
    }
 
 
 void *alloc_in_zone(t_zone **flst, size_t size_alloc,size_t size) // ! size allonc = A N ou M ou max_val
 {
-    // printf("alloc_in_zone_is_call flst =  %p\n",flst);
-
     if((*flst) == NULL) // first passage
     {
       add_one_page_zone(flst,size_alloc);
-      //my_print_lst(flst);
     }
-    // printf("flst %p , tiny %p \n",flst,g_e.tiny);
     t_zone *tmp; 
     tmp = (*flst);
     while(tmp){
         if(tmp->used == 0){
-            // printf("find\n");
             tmp->used = 1;
             tmp->size = size;
-            // printf("return\n");
-
             return(tmp->mem);
-           // printf("return\n");
 
         }
         tmp =  tmp->next;
     }
     
     add_one_page_zone(flst,size_alloc);
-    //my_print_lst(flst);
     tmp = (*flst);
 
      while(tmp){
         if(tmp->used == 0){
-            printf("find\n");
             tmp->used = 1;
             tmp->size = size;
-            printf("return\n");
-
             return(tmp->mem);
-           // printf("return\n");
-
         }
         tmp =  tmp->next;
     }
     
     printf("cas non prevu\n");
-    // //my_print_lst(flst);
-
      return (alloc(size));
 }
 
+void *fat_alloc(size_t size)
+{
+    t_zone  *tmp;
+
+    if(!g_e.large)
+    {
+        g_e.large = alloc(size + sizeof(t_zone));
+        if(g_e.large == FAIL_ALLOC)
+            return NULL;
+        g_e.large->used =  1;
+        g_e.large->next = NULL;
+        g_e.large->mem = (void*)g_e.large + sizeof(t_zone);
+        return(g_e.large->mem);
+    }
+    tmp =  g_e.large;
+    while(tmp->next)
+       tmp = tmp->next;
+    tmp->next = alloc(size + sizeof(t_zone));
+    tmp =  tmp->next;
+    if(tmp == FAIL_ALLOC)
+        return NULL;
+    tmp->used =  1;
+    tmp->next = NULL;
+    tmp->mem = (void*)tmp + sizeof(t_zone);
+
+    return(tmp->mem);
+    
+    
+}
 
 void *malloc(size_t size)
 {
-   // printf("MY_malloc_is_call\n");
     int page_size = getpagesize();
-    size_t N = page_size;
-    size_t n = 7;
-    size_t M = N*2;
-    size_t m = 50;
-    //void  *glob;
+    // size_t N = page_size;
+    // size_t n = 7;
+    // size_t M = N*2;
+    // size_t m = 50;
     if(g_init == false)
     {
             g_e.tiny = NULL;
             g_e.small = NULL;
             g_e.large = NULL;
             g_init = true;
-       //     printf("alloc finit\n");
     }
-    //g_e.tiny= alloc(sizeof(t_zone));
-  //  printf("%p\n",((t_env *)glob)->tiny->next);
 
-    if (size <= n)
-        return(alloc_in_zone(&g_e.tiny,n,size));//alloc_in_zone(((t_env *)glob)->tiny,n,size));
-    if (size < m)
-        return(alloc_in_zone(&g_e.small,m,size));
-    return (alloc(size));
+    if (size <= TINY_LS)
+        return(alloc_in_zone(&g_e.tiny,TINY_LS,size));//alloc_in_zone(((t_env *)glob)->tiny,n,size));
+    if (size <= SMALL_LS)
+        return(alloc_in_zone(&g_e.small,SMALL_LS,size));
+
+    return(fat_alloc(size));
+   //return (alloc(size));
 
 }

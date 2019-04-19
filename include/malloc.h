@@ -10,13 +10,13 @@
 #include"libft.h" 
 #include <stdio.h> // a enlever
 
-#define TINY_LS 10
-#define TINY_MULTY_PAGESIZE 1
+#define TINY_LS 7 /* pour la correction il et plus logique pour une utilisation "noramal" davoire tiny ~= 10 et small ~=50 */
+//#define TINY_MULTY_PAGESIZE 1
 
-#define SMALL_LS 10
-#define SMALL_MULTY_PAGESIZE 2
+#define SMALL_LS 50
+//#define SMALL_MULTY_PAGESIZE 2
 
-#define NB_ADD_ZONE  75 //50
+//#define NB_ADD_ZONE  75 //50
 
 #define FAIL_ALLOC (void *) -1
 
