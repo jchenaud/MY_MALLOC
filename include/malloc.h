@@ -10,10 +10,10 @@
 #include"libft.h" 
 #include <stdio.h> // a enlever
 
-#define TINY_LS 7 /* pour la correction il et plus logique pour une utilisation "noramal" davoire tiny ~= 10 et small ~=50 */
+#define TINY_LS 64 /* pour la correction il et plus logique pour une utilisation "noramal" davoire tiny ~= 10 et small ~=50 */
 //#define TINY_MULTY_PAGESIZE 1
 
-#define SMALL_LS 50
+#define SMALL_LS 1024
 //#define SMALL_MULTY_PAGESIZE 2
 
 //#define NB_ADD_ZONE  75 //50
@@ -54,6 +54,7 @@ typedef struct	s_env {
 //extern t_env g_e;
 // extern int plip;
 //extern void *glob;
+t_env g_e;
 
 
 void free(void *ptr);
@@ -64,6 +65,12 @@ void *alloc(size_t size);
 void *malloc(size_t size);
 
 void *realloc(void *ptr, size_t size);
+
+t_zone *find_p(void *ptr);
+t_zone *find_p_in_zone(void *ptr, t_zone *flst);
+
+
+
 //void show_alloc_mem();
 //void    ft_puthexa(void *ptr);//(uint64_t nb);
 

@@ -1,0 +1,7 @@
+calloc(a, b)
+{
+	res = 1000 * 3;
+	long long int;
+	ssize_t
+
+}

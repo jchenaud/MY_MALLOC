@@ -1,7 +1,6 @@
 #include "malloc.h"
 
 static bool g_init = false;
-t_env g_e;
 void *alloc(size_t size)
 {
    return(mmap(0,size,PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0));
@@ -113,13 +112,14 @@ void *alloc_in_zone(t_zone **flst, size_t size_alloc,size_t size) // ! size allo
 void *fat_alloc(size_t size)
 {
     t_zone  *tmp;
-
+    // on peut arjouter lalignement su les octer a faire aussi dans realloc
     if(!g_e.large)
     {
         g_e.large = alloc(size + sizeof(t_zone));
         if(g_e.large == FAIL_ALLOC)
             return NULL;
         g_e.large->used =  1;
+        g_e.large->size = size;
         g_e.large->next = NULL;
         g_e.large->mem = (void*)g_e.large + sizeof(t_zone);
         return(g_e.large->mem);
@@ -132,6 +132,7 @@ void *fat_alloc(size_t size)
     if(tmp == FAIL_ALLOC)
         return NULL;
     tmp->used =  1;
+    tmp->size = size;
     tmp->next = NULL;
     tmp->mem = (void*)tmp + sizeof(t_zone);
 
@@ -163,4 +164,4 @@ void *malloc(size_t size)
     return(fat_alloc(size));
    //return (alloc(size));
 
-}
+} 
