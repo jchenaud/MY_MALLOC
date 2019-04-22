@@ -1,7 +1,7 @@
 
-#define TINY  7
-#define SMALL 50
-#define FAT 1024
+#define TINY  50
+#define SMALL 1024
+#define FAT 8096
 
 
 void my_test_1()
@@ -98,6 +98,7 @@ int main(){
 
 
     show_alloc_mem();
+    show_alloc_mem_content();
     //prin
 
 

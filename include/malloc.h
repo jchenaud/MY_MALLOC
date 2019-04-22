@@ -52,6 +52,8 @@ void *realloc(void *ptr, size_t size);
 t_zone *find_p(void *ptr);
 t_zone *find_p_in_zone(void *ptr, t_zone *flst);
 void show_alloc_mem();
+void show_alloc_mem_content();
+
 //void    ft_puthexa(void *ptr);//(uint64_t nb);
 
 // mylst.c
