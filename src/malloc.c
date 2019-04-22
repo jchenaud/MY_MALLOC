@@ -144,10 +144,9 @@ void *fat_alloc(size_t size)
 void *malloc(size_t size)
 {
     int page_size = getpagesize();
-    // size_t N = page_size;
-    // size_t n = 7;
-    // size_t M = N*2;
-    // size_t m = 50;
+    
+    size =  (size + ALLIGN - 1 - ((size + ALLIGN - 1)%ALLIGN ));
+    // printf("%d\n",size);
     if(g_init == false)
     {
             g_e.tiny = NULL;

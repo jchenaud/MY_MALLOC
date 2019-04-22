@@ -7,10 +7,11 @@ NAME = libft_malloc_$(HOSTTYPE).so
 FILE = 	malloc.c \
 		free.c \
 		realloc.c \
+		show_alloc.c \
+
 
 
 		#mylst.c \
-		#show_alloc_mem.c \
 		#print_func.c \
 		#ft_malloc.c \
 		#test.c

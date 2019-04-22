@@ -97,7 +97,8 @@ int main(){
     printf("\n__________________FAT_Multy___PASS\n");
 
 
-
+    show_alloc_mem();
+    //prin
 
 
 

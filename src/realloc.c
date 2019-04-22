@@ -36,6 +36,8 @@ void *realloc(void *ptr, size_t size)
     else
     {
        p =  malloc(size);
+       if (p == NULL)
+        return(NULL);
        ft_memcpy(p,z->mem,z->size);
        free((void*)z->mem);
     }
