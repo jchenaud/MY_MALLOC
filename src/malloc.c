@@ -141,11 +141,14 @@ void *fat_alloc(size_t size)
     
 }
 
-void *malloc(size_t size)
+void *malloc_l(size_t size)
 {
-    int page_size = getpagesize();
-    
+    // int page_size = getpagesize();
+    // ft_itoa(size);
+    // ft_putendl("malloc_l");
     size =  (size + ALLIGN - 1 - ((size + ALLIGN - 1)%ALLIGN ));
+    if(size == 0 )
+        size = ALLIGN;
     // printf("%d\n",size);
     if(g_init == false)
     {
@@ -164,3 +167,17 @@ void *malloc(size_t size)
    //return (alloc(size));
 
 } 
+
+void *malloc(size_t size)
+{
+    //printf("COUCOU\n");
+    void *r = NULL;
+    lock();
+    // printf("lock");
+
+    r = malloc_l(size);
+    unlock();
+    // printf("unlock");
+
+    return(r);
+}

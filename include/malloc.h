@@ -6,6 +6,7 @@
 #include"libft.h"
 #include<stdint.h>
 
+#include <pthread.h>
 
 #include"libft.h" 
 #include <stdio.h> // a enlever
@@ -21,7 +22,6 @@
 #define FAIL_ALLOC (void *) -1
 
 #define ALLIGN 16
-
 
 
 typedef struct	s_zone {
@@ -53,6 +53,14 @@ t_zone *find_p(void *ptr);
 t_zone *find_p_in_zone(void *ptr, t_zone *flst);
 void show_alloc_mem();
 void show_alloc_mem_content();
+
+void    unlock();
+void    lock();
+
+// void *calloc(size_t n,size_t size);
+void *malloc_l(size_t size);
+void *realloc_l(void *ptr, size_t size);
+void free_l(void *ptr);
 
 //void    ft_puthexa(void *ptr);//(uint64_t nb);
 

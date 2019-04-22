@@ -8,6 +8,8 @@ FILE = 	malloc.c \
 		free.c \
 		realloc.c \
 		show_alloc.c \
+		thread.c \
+		# calloc.c \
 
 
 
@@ -33,7 +35,7 @@ $(NAME): $(BRICK)
 	# cd ..
 	# gcc  $(SRC)  -I include  -I libft libft/libft.a
 	# ar rc $(NAME) $(BRICK)
-	gcc  -shared -o $(NAME) $(FLAG) -I include  -I libft libft/libft.a  $(SRC)
+	gcc -lpthread -shared -o $(NAME) $(FLAG) -I include  -I libft libft/libft.a  $(SRC)
 	# ar rc $(NAME) $(BRICK)
 	# ranlib libft_malloc_$(HOSTTYPE).so
 	ln -fs $(NAME) libft_malloc.so
