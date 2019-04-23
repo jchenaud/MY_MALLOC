@@ -3,26 +3,31 @@
 static bool g_init = false;
 void *alloc(size_t size)
 {
-   return(mmap(0,size,PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0));
+    void *r;
+    r = mmap(0,size,PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0);
+    if(r == FAIL_ALLOC)
+        r = p_erno(0);
+    return(r);
+   //return(mmap(0,size,PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,-1,0));
 }
 
-void my_print_lst(t_zone **flst)
-{
-    t_zone *tmp = (*flst);
+// void my_print_lst(t_zone **flst)
+// {
+//     t_zone *tmp = (*flst);
 
-    int i = 0;
-    printf("start_print\n");
-    while(tmp != NULL)
-    {
-        printf("on %d element on lst \t used = %d \t next = %p \n",i,tmp->used,tmp->next);
-        i++;
+//     int i = 0;
+//     printf("start_print\n");
+//     while(tmp != NULL)
+//     {
+//         printf("on %d element on lst \t used = %d \t next = %p \n",i,tmp->used,tmp->next);
+//         i++;
 
-        tmp = tmp->next;
+//         tmp = tmp->next;
 
-    }
-    printf("End_print\n");
+//     }
+//     printf("End_print\n");
 
-}
+// }
 
    void    add_one_page_zone(t_zone **flst,size_t size_alloc)
    {
@@ -36,8 +41,8 @@ void my_print_lst(t_zone **flst)
             k++;
         }
        void *p = alloc(getpagesize() * k);
-       if(p == FAIL_ALLOC)
-        return ;
+       if(p == NULL)
+            return ;
        int i = 0;
        if((*flst) == NULL)
         {
@@ -71,7 +76,6 @@ void my_print_lst(t_zone **flst)
        tmp->used =  -1;
        tmp->next = NULL; 
        tmp->mem =   NULL;
-       // printf("end %d tmp %p\n",i,tmp);
    }
 
 
@@ -105,19 +109,19 @@ void *alloc_in_zone(t_zone **flst, size_t size_alloc,size_t size) // ! size allo
         tmp =  tmp->next;
     }
     
-    printf("cas non prevu\n");
-     return (alloc(size));
+    // ft_putendl("cas non prevu\n");
+    //  return (alloc(size));
+    return(NULL);
 }
 
 void *fat_alloc(size_t size)
 {
     t_zone  *tmp;
-    // on peut arjouter lalignement su les octer a faire aussi dans realloc
     if(!g_e.large)
     {
         g_e.large = alloc(size + sizeof(t_zone));
-        if(g_e.large == FAIL_ALLOC)
-            return NULL;
+        if(g_e.large == NULL)
+            return (NULL);
         g_e.large->used =  1;
         g_e.large->size = size;
         g_e.large->next = NULL;
@@ -128,9 +132,9 @@ void *fat_alloc(size_t size)
     while(tmp->next)
        tmp = tmp->next;
     tmp->next = alloc(size + sizeof(t_zone));
+    if(tmp->next == NULL)
+        return (NULL);
     tmp =  tmp->next;
-    if(tmp == FAIL_ALLOC)
-        return NULL;
     tmp->used =  1;
     tmp->size = size;
     tmp->next = NULL;
@@ -143,13 +147,9 @@ void *fat_alloc(size_t size)
 
 void *malloc_l(size_t size)
 {
-    // int page_size = getpagesize();
-    // ft_itoa(size);
-    // ft_putendl("malloc_l");
     size =  (size + ALLIGN - 1 - ((size + ALLIGN - 1)%ALLIGN ));
     if(size == 0 )
         size = ALLIGN;
-    // printf("%d\n",size);
     if(g_init == false)
     {
             g_e.tiny = NULL;
@@ -157,27 +157,20 @@ void *malloc_l(size_t size)
             g_e.large = NULL;
             g_init = true;
     }
-
     if (size <= TINY_LS)
-        return(alloc_in_zone(&g_e.tiny,TINY_LS,size));//alloc_in_zone(((t_env *)glob)->tiny,n,size));
+        return(alloc_in_zone(&g_e.tiny,TINY_LS,size));
     if (size <= SMALL_LS)
         return(alloc_in_zone(&g_e.small,SMALL_LS,size));
 
     return(fat_alloc(size));
-   //return (alloc(size));
-
 } 
 
 void *malloc(size_t size)
 {
-    //printf("COUCOU\n");
+    //printf("malloc_is_call\n");
     void *r = NULL;
     lock();
-    // printf("lock");
-
     r = malloc_l(size);
     unlock();
-    // printf("unlock");
-
     return(r);
 }

@@ -6,7 +6,7 @@ void *realloc_l(void *ptr, size_t size)
     t_zone *z;
     void *p = NULL;
     size_t actual_size  = 0;
-    ft_putendl("realloc_l");
+    // ft_putendl("realloc_l");
 
     // printf("Realloc is call %p \n",ptr);
     if(ptr ==NULL)

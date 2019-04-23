@@ -30,8 +30,6 @@ t_zone *find_p(void *ptr)
 
 void free_l(void *ptr)
 {
-    // ft_putendl("free_l");
-    
     t_zone *z;
 
     z = find_p(ptr);
@@ -39,21 +37,11 @@ void free_l(void *ptr)
         return;
     z->size = 0;
     z->used = 0;
-
-
-    //ptr = NULL;
-    //return(NULL);
 }
 
 void free(void *ptr)
 {
-    // void *r;
     lock();
-    // printf("lock");
-
     free_l(ptr);
     unlock();
-    // printf("unlock");
-
-    //return(r);
 }

@@ -23,6 +23,8 @@
 
 #define ALLIGN 16
 
+#define LOCK  0
+
 
 typedef struct	s_zone {
     int    used;  // 0 = false 1 = true -1= last last of zone;
@@ -61,6 +63,11 @@ void    lock();
 void *malloc_l(size_t size);
 void *realloc_l(void *ptr, size_t size);
 void free_l(void *ptr);
+
+void erno(int i);
+
+
+void *p_erno(int i);
 
 //void    ft_puthexa(void *ptr);//(uint64_t nb);
 

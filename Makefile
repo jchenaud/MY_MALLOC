@@ -9,6 +9,7 @@ FILE = 	malloc.c \
 		realloc.c \
 		show_alloc.c \
 		thread.c \
+		erno.c \
 		# calloc.c \
 
 

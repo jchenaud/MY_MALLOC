@@ -1,3 +1,4 @@
+#include <stddef.h>
 
 #define TINY  50
 #define SMALL 1024
@@ -9,8 +10,8 @@ void my_test_1()
 
     char *str;
     str  =  (char *)malloc(sizeof(char)*TINY);
-    str[0] = 's';
-    str[1] = 'a';
+    str[0] = 't';
+    str[1] = 'y';
     str[2] = '\0';
 
     printf("%s",str);
@@ -18,12 +19,18 @@ void my_test_1()
 
 void my_test_2()
 {
+    size_t i = 0;
 
     char *str;
     str  =  (char *)malloc(sizeof(char)*SMALL);
-    str[0] = 's';
-    str[1] = 'a';
-    str[2] = '\0';
+    while(i < SMALL)
+    {
+        str[i] = 'S';
+        i++;
+    }
+    // str[0] = 's';
+    // str[1] = 'a';
+    // str[2] = '\0';
 
     printf("%s",str);
 }
@@ -61,13 +68,17 @@ void my_fat_test()
 {
        // printf("Caall\n");
 
-
+    size_t i = 0;
     char *str;
     str  =  (char *)malloc(sizeof(char)*FAT);
-    str[0] = 'F';
-    str[1] = 'a';
-    str[2] = '\0';
-    printf("%s",str);
+    while(i < FAT-1)
+    {
+        str[i] = 'F';
+        i++;
+    }
+    // str[1] = 'a';
+    // str[2] = '\0';
+    // printf("%s",str);
     
 }
 
@@ -93,12 +104,12 @@ int main(){
     my_fat_test();
     printf("\n__________________FAT_____PASS\n");
   //  my_multy_test((*my_fat_test),110);
-    my_multy_Fat(110);
+    my_multy_Fat(44110);
     printf("\n__________________FAT_Multy___PASS\n");
 
 
     show_alloc_mem();
-    show_alloc_mem_content();
+    //show_alloc_mem_content();
     //prin
 
 
