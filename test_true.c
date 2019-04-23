@@ -6,7 +6,7 @@
 #define SMALL 1024
 #define FAT 8096
 
-#define FREE 1
+#define FREE 0
 
 void my_test_1()
 {
@@ -28,7 +28,7 @@ void my_test_2()
 
     char *str;
     str  =  (char *)malloc(sizeof(char)*SMALL);
-    while(i < SMALL)
+    while(i < SMALL -1)
     {
         str[i] = 'S';
         i++;
