@@ -23,7 +23,7 @@
 
 #define ALLIGN 16
 
-#define LOCK  0
+#define LOCK  1
 
 
 typedef struct	s_zone {
@@ -64,10 +64,12 @@ void *malloc_l(size_t size);
 void *realloc_l(void *ptr, size_t size);
 void free_l(void *ptr);
 
-void erno(int i);
+//void erno(int i);
 
 
 void *p_erno(int i);
+void *rea_undifined();
+
 
 //void    ft_puthexa(void *ptr);//(uint64_t nb);
 

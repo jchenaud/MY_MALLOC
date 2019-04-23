@@ -15,7 +15,8 @@ void *realloc_l(void *ptr, size_t size)
     z = find_p(ptr);
     if(z == NULL)
     {
-        return (NULL);
+        return (rea_undifined());
+       // return (NULL);
 
     }
 
@@ -47,6 +48,7 @@ void *realloc_l(void *ptr, size_t size)
 
 void *realloc(void *ptr, size_t size)
 {
+    // printf("Realloc_is_call\n");
     void *r;
     lock();
     // printf("lock");
