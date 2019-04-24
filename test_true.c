@@ -129,11 +129,11 @@ int main(){
     prout = malloc(1024*1024*1024);
     my_test_1();
     printf("\n__________________TEST1____PASS\n");
-    my_test1_multy(103);
+    my_test1_multy(10003);
     printf("\n__________________TEST1_MULTY____PASS\n");
     my_test_2();
     printf("\n__________________TEST2_____PASS\n");
-    my_test2_multy(203);
+    my_test2_multy(20003);
     printf("\n__________________TEST2_MULTY____PASS\n");
     my_fat_test();
     printf("\n__________________FAT_____PASS\n");

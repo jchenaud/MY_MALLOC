@@ -10,14 +10,6 @@ FILE = 	malloc.c \
 		show_alloc.c \
 		thread.c \
 		erno.c \
-		# calloc.c \
-
-
-
-		#mylst.c \
-		#print_func.c \
-		#ft_malloc.c \
-		#test.c
 
 SRC_PATH = src
 INCLUDES = include

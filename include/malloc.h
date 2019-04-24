@@ -23,6 +23,7 @@
 
 #define ALLIGN 16
 
+#define ERROR 1
 #define LOCK  1
 
 
@@ -69,6 +70,7 @@ void free_l(void *ptr);
 
 void *p_erno(int i);
 void *rea_undifined();
+
 
 
 //void    ft_puthexa(void *ptr);//(uint64_t nb);
