@@ -24,7 +24,7 @@
 #define ALLIGN 16
 
 #define ERROR 1
-#define LOCK  1
+#define LOCK  0
 
 
 typedef struct	s_zone {

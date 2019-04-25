@@ -6,7 +6,7 @@
 /*   By: jchenaud <jchenaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 15:19:30 by jchenaud          #+#    #+#             */
-/*   Updated: 2019/04/23 15:19:33 by jchenaud         ###   ########.fr       */
+/*   Updated: 2019/04/24 16:49:11 by jchenaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,43 +24,15 @@ void	*alloc(size_t size)
 	return (r);
 }
 
-void	add_one_page_zone(t_zone **flst, size_t size_alloc)
+void	page_init(t_zone **flst, size_t size_alloc, size_t reapit, void *p)
 {
-	size_t reapit;
-	t_zone *tmp;
-	void *p;
-	int k; // size_T?
-	int i; //
-	int skip;
+	t_zone	*tmp;
+	int		skip;
+	size_t	i;
 
-	k = 1;
-	reapit = 0;
-	i = 0;
-	while (reapit < 100)
-	{
-		reapit = (getpagesize() * k - sizeof(t_zone))
-			/ (sizeof(t_zone) + size_alloc);
-		k++;
-	}
-	p = alloc(getpagesize() * k);
-	if (p == NULL)
-		return ;
-	if ((*flst) == NULL)
-	{
-		(*flst) = p;
-		(*flst)->used = false;
-		(*flst)->next = NULL;
-		(*flst)->mem = p + sizeof(t_zone);
-		(*flst)->size = SIZE_MAX;
-		i++;
-	}
 	tmp = (*flst);
-	skip = 0;
 	while (tmp->next)
-	{
 		tmp = tmp->next;
-		skip++;
-	}
 	tmp->next = p + sizeof(t_zone) + (size_alloc * 1);
 	i = 1;
 	while (i < reapit)
@@ -78,12 +50,39 @@ void	add_one_page_zone(t_zone **flst, size_t size_alloc)
 	tmp->mem = NULL;
 }
 
-void	*alloc_in_zone(t_zone **flst, size_t size_alloc, size_t size)
+void	add_one_page_zone(t_zone **flst, size_t size_alloc)
+{
+	size_t	reapit;
+	t_zone	*tmp;
+	void	*p;
+	size_t	k;
+
+	k = 1;
+	reapit = 0;
+	while (reapit < 100)
+	{
+		reapit = (getpagesize() * k - sizeof(t_zone))
+			/ (sizeof(t_zone) + size_alloc);
+		k++;
+	}
+	p = alloc(getpagesize() * k);
+	if (p == NULL)
+		return ;
+	if ((*flst) == NULL)
+	{
+		(*flst) = p;
+		(*flst)->used = false;
+		(*flst)->next = NULL;
+		(*flst)->mem = p + sizeof(t_zone);
+		(*flst)->size = SIZE_MAX;
+	}
+	page_init(flst, size_alloc, reapit, p);
+}
+
+void	*find_not_use(t_zone **flst, size_t size)
 {
 	t_zone *tmp;
 
-	if ((*flst) == NULL)
-		add_one_page_zone(flst, size_alloc);
 	tmp = (*flst);
 	while (tmp)
 	{
@@ -95,6 +94,19 @@ void	*alloc_in_zone(t_zone **flst, size_t size_alloc, size_t size)
 		}
 		tmp = tmp->next;
 	}
+	return (NULL);
+}
+
+void	*alloc_in_zone(t_zone **flst, size_t size_alloc, size_t size)
+{
+	t_zone	*tmp;
+	void	*p;
+
+	if ((*flst) == NULL)
+		add_one_page_zone(flst, size_alloc);
+	p = find_not_use(flst, size);
+	if (p)
+		return (p);
 	add_one_page_zone(flst, size_alloc);
 	tmp = (*flst);
 	while (tmp)

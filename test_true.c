@@ -102,44 +102,57 @@ void my_multy_Fat(int nb)
 
 void my_realoc_test()
 {
-    void *ad1;
-    void *ad2;
+    char *ad1;
+    char *ad2;
 
     ad1 = malloc(0);
-    ad2 = realloc(ad1,1);
-
+    ad2 = realloc((void*)ad1,sizeof(char));
+    printf("coucou\n");
     free(ad1);
     free(ad2);
+    printf("coucou2\n");
 
-    ad1 = malloc(1);
+    ad1 = malloc(sizeof(char));
+    printf("coucou3\n");
 
     size_t i = 1;
-
+    size_t k = 0;
     while (i < FAT * 1.5)
     {
-        ad2 =  realloc(ad2,i);
-        i++;
+
+        k = i - 1;
+        printf("ici\n");
+        ad2 =  realloc(ad2,sizeof(char) * i);
+        printf("la\n",i,ad2);
+         while(k != 0)
+         {
+             ad2[k] = 'R';
+             k--;
+            printf("k  = %zu , i = %zu \n",k,i);
+
+        }
+         i++;
     }
     ad2 = realloc(ad2,0);
 }
 
 int main(){
 
-    void *prout;
-    prout = malloc(1024*1024*1024);
-    my_test_1();
-    printf("\n__________________TEST1____PASS\n");
-    my_test1_multy(10003);
-    printf("\n__________________TEST1_MULTY____PASS\n");
-    my_test_2();
-    printf("\n__________________TEST2_____PASS\n");
-    my_test2_multy(20003);
-    printf("\n__________________TEST2_MULTY____PASS\n");
-    my_fat_test();
-    printf("\n__________________FAT_____PASS\n");
-  //  my_multy_test((*my_fat_test),110);
-    my_multy_Fat(44110);
-    printf("\n__________________FAT_Multy___PASS\n");
+//     void *prout;
+//     prout = malloc(1024*1024*1024);
+//     my_test_1();
+//     printf("\n__________________TEST1____PASS\n");
+//     my_test1_multy(10);
+//     printf("\n__________________TEST1_MULTY____PASS\n");
+//     my_test_2();
+//     printf("\n__________________TEST2_____PASS\n");
+//     my_test2_multy(20);
+//     printf("\n__________________TEST2_MULTY____PASS\n");
+//     my_fat_test();
+//     printf("\n__________________FAT_____PASS\n");
+//   //  my_multy_test((*my_fat_test),110);
+//     my_multy_Fat(400);
+//     printf("\n__________________FAT_Multy___PASS\n");
 
     // printf(sizeof(t_zone));
     my_realoc_test();
