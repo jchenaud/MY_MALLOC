@@ -6,7 +6,7 @@
 /*   By: jchenaud <jchenaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 13:36:40 by jchenaud          #+#    #+#             */
-/*   Updated: 2019/04/25 15:29:09 by jchenaud         ###   ########.fr       */
+/*   Updated: 2019/04/26 14:41:31 by jchenaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ void	*realloc_l(void *ptr, size_t size)
 	if (ptr == NULL)
 		return (malloc_l(size));
 
-	
 	z = find_p(ptr);
-
 	if (z == NULL)
 		return (rea_undifined());
 	actual_size = z->size;
@@ -38,27 +36,20 @@ void	*realloc_l(void *ptr, size_t size)
 		}
 	}
 
-	// else
 	size_t alloc_size = (size + ALLIGN - 1 - ((size + ALLIGN - 1) % ALLIGN));
-	if((actual_size <= TINY_LS && alloc_size <= TINY_LS) || (actual_size <= SMALL_LS && alloc_size <= SMALL_LS)  || (actual_range > alloc_size))
+	if ((actual_size <= TINY_LS && alloc_size <= TINY_LS)
+		|| (actual_size <= SMALL_LS && alloc_size <= SMALL_LS)
+			|| (actual_range > alloc_size))
 	{
-		// ft_putendl("yo");
 		z->size = size;
 	 	return (z->mem);
 	}
 	else
 	{
-		// ft_putendl("coucou");
 		p = malloc_l(size);
 		if (p == NULL)
-		{
-			// ft_putendl("realloc_fail");
-
 			return (NULL);
-		}
 		ft_memcpy(p, z->mem, z->size);
-		// ft_putendl("ft_memcpy");
-
 		free_l((void*)z->mem);
 	}
 	return (p);
