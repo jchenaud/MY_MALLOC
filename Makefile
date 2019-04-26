@@ -14,7 +14,7 @@ FILE = 	malloc.c \
 SRC_PATH = src
 INCLUDES = include
 
-BRI  = $(FILE:.c=.o)#$(patsubst %.c, %.o, $(SRC))
+BRI  = $(FILE:.c=.o)
 BRICK = $(addprefix $(SRC_PATH)/,$(BRI))
 SRC = $(addprefix $(SRC_PATH)/,$(FILE))
 FLAG = -Wall -Wextra
@@ -25,12 +25,7 @@ all:$(NAME)
 $(NAME): $(BRICK)
 
 	cd libft && make re
-	# cd ..
-	# gcc  $(SRC)  -I include  -I libft libft/libft.a
-	# ar rc $(NAME) $(BRICK)
 	gcc -lpthread -shared -o $(NAME) $(FLAG) -I include  -I libft libft/libft.a  $(SRC)
-	# ar rc $(NAME) $(BRICK)
-	# ranlib libft_malloc_$(HOSTTYPE).so
 	ln -fs $(NAME) libft_malloc.so
 
 host:

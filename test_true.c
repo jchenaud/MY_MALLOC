@@ -195,18 +195,18 @@ int main(){
     prout = malloc(1024*1024*1024*1024);
     my_test_1();
     printf("\n__________________TEST1____PASS\n");
-    my_test1_multy(10);
+    my_test1_multy(10000);
     printf("\n__________________TEST1_MULTY____PASS\n");
     my_test_2();
     printf("\n__________________TEST2_____PASS\n");
-    my_test2_multy(10);
+    my_test2_multy(100000);
     printf("\n__________________TEST2_MULTY____PASS\n");
     my_fat_test();
     printf("\n__________________FAT_____PASS\n");
-    my_multy_Fat(40);
+    my_multy_Fat(4000);
     printf("\n__________________FAT_Multy___PASS\n");
     my_realoc_test();
-   // fullysize_test();
+    fullysize_test();
     show_alloc_mem();
     // show_alloc_mem_content();
 

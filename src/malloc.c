@@ -6,7 +6,7 @@
 /*   By: jchenaud <jchenaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 15:19:30 by jchenaud          #+#    #+#             */
-/*   Updated: 2019/04/26 14:37:53 by jchenaud         ###   ########.fr       */
+/*   Updated: 2019/04/26 16:15:54 by jchenaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	*alloc(size_t size)
 void	page_init(t_zone **flst, size_t size_alloc, size_t reapit, void *p)
 {
 	t_zone	*tmp;
-	int		skip;
 	size_t	i;
 
 	tmp = (*flst);
@@ -53,7 +52,6 @@ void	page_init(t_zone **flst, size_t size_alloc, size_t reapit, void *p)
 void	add_one_page_zone(t_zone **flst, size_t size_alloc)
 {
 	size_t	reapit;
-	t_zone	*tmp;
 	void	*p;
 	size_t	k;
 
