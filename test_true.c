@@ -123,17 +123,54 @@ void my_realoc_test()
         k = i - 1;
         printf("ici\n");
         ad2 =  realloc(ad2,sizeof(char) * i);
-        printf("la\n",i,ad2);
+        printf("la\n");
          while(k != 0)
          {
              ad2[k] = 'R';
              k--;
-            printf("k  = %zu , i = %zu \n",k,i);
+            // printf("k  = %zu , i = %zu \n",k,i);
 
         }
+        ad2[0] = 'F';
          i++;
     }
     ad2 = realloc(ad2,0);
+}
+
+void fullysize_test()
+{
+     char *ad1;
+    char *ad2;
+
+    ad1 = malloc(0);
+
+    ad1 = malloc(sizeof(char));
+
+    size_t i = 1;
+    size_t k = 0;
+
+    while (i < FAT * 1.5)
+    {
+        // printf("ici \n");
+
+        k = i - 1;
+        ad1 =  malloc(sizeof(char) * i);
+         while(k != 0)
+         {
+             ad1[k] = 'c';
+             k--;
+            // printf("k  = %zu , i = %zu \n",k,i);
+
+        }
+        ad1[0] = 'c';
+        // ft_putstr(ad1);
+        //printf("%s\n",ad1);
+        // printf("la \n");
+
+         i++;
+    }
+    free(ad1);
+    // ad1 = malloc(0);
 }
 
 int main(){
@@ -155,10 +192,12 @@ int main(){
 //     printf("\n__________________FAT_Multy___PASS\n");
 
     // printf(sizeof(t_zone));
-    my_realoc_test();
+    // my_realoc_test();
+    fullysize_test();
 
-    show_alloc_mem();
-    //show_alloc_mem_content();
+    //show_alloc_mem();
+
+    // show_alloc_mem_content();
     //prin
 
 
