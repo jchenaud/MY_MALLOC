@@ -2,6 +2,7 @@
 #include <stdio.h>
 // #include <stdlib.h>
 
+// #include"malloc.h"
 #define TINY  50
 #define SMALL 1024
 #define FAT 8096
@@ -17,7 +18,7 @@ void my_test_1()
     str[1] = 'y';
     str[2] = '\0';
 
-    printf("%s",str);
+  //  printf("%s",str);
     if(FREE == 1)
         free(str);
 }
@@ -37,7 +38,7 @@ void my_test_2()
     // str[1] = 'a';
     // str[2] = '\0';
 
-    printf("%s",str);
+    //printf("%s",str);
     if(FREE == 1)
         free(str);
 }
@@ -48,7 +49,7 @@ void my_test2_multy(int nb)
        my_test_2();
        nb--;
     }
-    
+
 }
 
 void my_test1_multy(int nb)
@@ -57,7 +58,7 @@ void my_test1_multy(int nb)
        my_test_1();
        nb--;
     }
-    
+
 }
 
 void my_multy_test(void *p,int nb)
@@ -88,7 +89,7 @@ void my_fat_test()
     // str[1] = 'a';
     // str[2] = '\0';
     // printf("%s",str);
-    
+
 }
 
 void my_multy_Fat(int nb)
@@ -120,10 +121,10 @@ void my_realoc_test()
     while (i < FAT * 1.5)
     {
 
-        k = i - 1;
-        printf("ici\n");
-        ad2 =  realloc(ad2,sizeof(char) * i);
-        printf("la\n");
+        // k = i - 1;
+        // printf("ici\n");
+        ad2 =  (char *) realloc((void*)ad2,sizeof(char) * i);
+        // printf("la\n");
          while(k != 0)
          {
              ad2[k] = 'R';
@@ -146,7 +147,7 @@ void fullysize_test()
 
     ad1 = malloc(sizeof(char));
 
-    size_t i = 1;
+    size_t i = 2;
     size_t k = 0;
 
     while (i < FAT * 1.5)
@@ -154,7 +155,10 @@ void fullysize_test()
         // printf("ici \n");
 
         k = i - 1;
+
         ad1 =  malloc(sizeof(char) * i);
+        ad1[k] = '\0';
+        k--;
          while(k != 0)
          {
              ad1[k] = 'c';
@@ -164,7 +168,18 @@ void fullysize_test()
         }
         ad1[0] = 'c';
         // ft_putstr(ad1);
-        //printf("%s\n",ad1);
+        size_t j = 0;
+        printf("%zu\n",i);
+        printf("%p\n",ad1);
+        // while (ad1[j])
+        // {
+        // printf("i = %zu j = %zu \t",i,j);
+        // printf("%c\n",ad1[j]);
+        // j++;
+        // }
+
+
+        // printf("%s\n",ad1);
         // printf("la \n");
 
          i++;
@@ -175,30 +190,25 @@ void fullysize_test()
 
 int main(){
 
-//     void *prout;
-//     prout = malloc(1024*1024*1024);
-//     my_test_1();
-//     printf("\n__________________TEST1____PASS\n");
-//     my_test1_multy(10);
-//     printf("\n__________________TEST1_MULTY____PASS\n");
-//     my_test_2();
-//     printf("\n__________________TEST2_____PASS\n");
-//     my_test2_multy(20);
-//     printf("\n__________________TEST2_MULTY____PASS\n");
-//     my_fat_test();
-//     printf("\n__________________FAT_____PASS\n");
-//   //  my_multy_test((*my_fat_test),110);
-//     my_multy_Fat(400);
-//     printf("\n__________________FAT_Multy___PASS\n");
 
-    // printf(sizeof(t_zone));
-    // my_realoc_test();
+    void *prout;
+    prout = malloc(1024*1024*1024);
+    my_test_1();
+    printf("\n__________________TEST1____PASS\n");
+    my_test1_multy(10000);
+    printf("\n__________________TEST1_MULTY____PASS\n");
+    my_test_2();
+    printf("\n__________________TEST2_____PASS\n");
+    my_test2_multy(10000);
+    printf("\n__________________TEST2_MULTY____PASS\n");
+    my_fat_test();
+    printf("\n__________________FAT_____PASS\n");
+    my_multy_Fat(4000);
+    printf("\n__________________FAT_Multy___PASS\n");
+    my_realoc_test();
     fullysize_test();
-
-    //show_alloc_mem();
-
-    // show_alloc_mem_content();
-    //prin
+    show_alloc_mem();
+    show_alloc_mem_content();
 
 
 

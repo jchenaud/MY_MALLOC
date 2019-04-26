@@ -6,7 +6,7 @@
 /*   By: jchenaud <jchenaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 15:19:30 by jchenaud          #+#    #+#             */
-/*   Updated: 2019/04/25 15:45:48 by jchenaud         ###   ########.fr       */
+/*   Updated: 2019/04/26 10:36:11 by jchenaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	add_one_page_zone(t_zone **flst, size_t size_alloc)
 		(*flst)->size = SIZE_MAX;
 	}
 	page_init(flst, size_alloc, reapit, p);
+	// my_print_lst(flst);
 }
 
 void	*find_not_use(t_zone **flst, size_t size)

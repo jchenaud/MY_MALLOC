@@ -6,7 +6,7 @@
 /*   By: jchenaud <jchenaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 13:19:58 by jchenaud          #+#    #+#             */
-/*   Updated: 2019/04/26 10:08:57 by jchenaud         ###   ########.fr       */
+/*   Updated: 2019/04/26 10:28:31 by jchenaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void my_print_lst(t_zone **flst)
     t_zone *tmp = (*flst);
 
     int i = 0;
-    printf("start_print\n");
+    printf("start_print %p \n",tmp);
     while(tmp != NULL)
     {
-        printf("on %d element on lst \t used = %d \t next = %p \n",i,tmp->used,tmp->next);
+        printf("on %d element on lst \t used = %d \t ,mem = [%p], next = %p \n",i,tmp->used,tmp->mem,tmp->next);
         i++;
 
         tmp = tmp->next;
