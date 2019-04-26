@@ -6,7 +6,7 @@
 /*   By: jchenaud <jchenaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:31:56 by jchenaud          #+#    #+#             */
-/*   Updated: 2019/04/24 14:32:40 by jchenaud         ###   ########.fr       */
+/*   Updated: 2019/04/26 15:58:04 by jchenaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,17 @@ void	ft_puthexa(void *ptr)
 	}
 }
 
+size_t	print_line_info(t_zone *tmp)
+{
+	ft_puthexa(tmp);
+	ft_putstr(" -> ");
+	ft_puthexa(tmp->mem);
+	ft_putstr(" : ");
+	ft_putnbr(tmp->size);
+	ft_putstr(" octets \n\t");
+	return (tmp->size);
+}
+
 size_t	print_mem_zone(t_zone *first)
 {
 	t_zone *tmp;
@@ -53,15 +64,7 @@ size_t	print_mem_zone(t_zone *first)
 	while (tmp->next != NULL)
 	{
 		if (tmp->used == true)
-		{
-			ft_puthexa(tmp);
-			ft_putstr(" -> ");
-			ft_puthexa(tmp->mem);
-			ft_putstr(" : ");
-			ft_putnbr(tmp->size);
-			ft_putstr(" octets \n\t");
-			octes += tmp->size;
-		}
+			octes += print_line_info(tmp);
 		else if (tmp->used == -1)
 		{
 			ft_putstr("\n\t");
@@ -86,17 +89,7 @@ size_t	print_mem_zone_content(t_zone *first)
 	while (tmp->next != NULL)
 	{
 		if (tmp->used == true)
-		{
-			ft_puthexa(tmp);
-			ft_putstr(" -> ");
-			ft_puthexa(tmp->mem);
-			ft_putstr(" : ");
-			ft_putnbr(tmp->size);
-			ft_putstr(" octets : ");
-			ft_putstr((const char*)tmp->mem);
-			ft_putstr("\n\t");
-			octes += tmp->size;
-		}
+			octes += print_line_info(tmp);
 		else if (tmp->used == -1)
 		{
 			ft_putstr("\n\t");

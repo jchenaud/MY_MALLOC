@@ -150,7 +150,7 @@ void fullysize_test()
     size_t i = 2;
     size_t k = 0;
 
-    while (i < FAT * 1.5)
+    while (i < FAT +1)
     {
         // printf("ici \n");
 
@@ -168,9 +168,9 @@ void fullysize_test()
         }
         ad1[0] = 'c';
         // ft_putstr(ad1);
-        size_t j = 0;
-        printf("%zu\n",i);
-        printf("%p\n",ad1);
+        // size_t j = 0;
+        // printf("%zu\n",i);
+        // printf("%p\n",ad1);
         // while (ad1[j])
         // {
         // printf("i = %zu j = %zu \t",i,j);
@@ -192,23 +192,23 @@ int main(){
 
 
     void *prout;
-    prout = malloc(1024*1024*1024);
+    prout = malloc(1024*1024*1024*1024);
     my_test_1();
     printf("\n__________________TEST1____PASS\n");
-    my_test1_multy(10000);
+    my_test1_multy(10);
     printf("\n__________________TEST1_MULTY____PASS\n");
     my_test_2();
     printf("\n__________________TEST2_____PASS\n");
-    my_test2_multy(10000);
+    my_test2_multy(10);
     printf("\n__________________TEST2_MULTY____PASS\n");
     my_fat_test();
     printf("\n__________________FAT_____PASS\n");
-    my_multy_Fat(4000);
+    my_multy_Fat(40);
     printf("\n__________________FAT_Multy___PASS\n");
     my_realoc_test();
-    fullysize_test();
+   // fullysize_test();
     show_alloc_mem();
-    show_alloc_mem_content();
+    // show_alloc_mem_content();
 
 
 

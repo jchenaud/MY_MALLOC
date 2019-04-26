@@ -6,43 +6,26 @@
 /*   By: jchenaud <jchenaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 13:36:40 by jchenaud          #+#    #+#             */
-/*   Updated: 2019/04/26 14:41:31 by jchenaud         ###   ########.fr       */
+/*   Updated: 2019/04/26 15:31:20 by jchenaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void	*realloc_l(void *ptr, size_t size)
+static void	*do_it(size_t size, size_t actual_size,
+	t_zone *z, size_t actual_range)
 {
-	t_zone	*z;
 	void	*p;
-	size_t	actual_size;
+	size_t	alloc_size;
 
 	p = NULL;
-	actual_size = 0;
-	if (ptr == NULL)
-		return (malloc_l(size));
-
-	z = find_p(ptr);
-	if (z == NULL)
-		return (rea_undifined());
-	actual_size = z->size;
-	size_t actual_range = 0;
-	if(actual_size > SMALL_LS)
-	{
-		while (actual_range < actual_size)
-		{
-			actual_range += getpagesize();
-		}
-	}
-
-	size_t alloc_size = (size + ALLIGN - 1 - ((size + ALLIGN - 1) % ALLIGN));
+	alloc_size = (size + ALLIGN - 1 - ((size + ALLIGN - 1) % ALLIGN));
 	if ((actual_size <= TINY_LS && alloc_size <= TINY_LS)
 		|| (actual_size <= SMALL_LS && alloc_size <= SMALL_LS)
 			|| (actual_range > alloc_size))
 	{
 		z->size = size;
-	 	return (z->mem);
+		return (z->mem);
 	}
 	else
 	{
@@ -55,7 +38,31 @@ void	*realloc_l(void *ptr, size_t size)
 	return (p);
 }
 
-void	*realloc(void *ptr, size_t size)
+void		*realloc_l(void *ptr, size_t size)
+{
+	t_zone	*z;
+	size_t	actual_size;
+	size_t	actual_range;
+
+	actual_size = 0;
+	if (ptr == NULL)
+		return (malloc_l(size));
+	z = find_p(ptr);
+	if (z == NULL)
+		return (rea_undifined());
+	actual_size = z->size;
+	actual_range = 0;
+	if (actual_size > SMALL_LS)
+	{
+		while (actual_range < actual_size)
+		{
+			actual_range += getpagesize();
+		}
+	}
+	return (do_it(size, actual_size, z, actual_range));
+}
+
+void		*realloc(void *ptr, size_t size)
 {
 	void *r;
 
@@ -65,4 +72,3 @@ void	*realloc(void *ptr, size_t size)
 	unlock();
 	return (r);
 }
-
