@@ -1,58 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   show_alloc.c                                       :+:      :+:    :+:   */
+/*   show_alloc_c.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jchenaud <jchenaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/24 14:31:56 by jchenaud          #+#    #+#             */
-/*   Updated: 2019/04/29 15:43:55 by jchenaud         ###   ########.fr       */
+/*   Created: 2019/04/29 15:40:42 by jchenaud          #+#    #+#             */
+/*   Updated: 2019/04/29 15:40:47 by jchenaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void	ft_puthexa(void *ptr)
-{
-	uint64_t	nb;
-	char		hex_revert[16];
-	int			hex[16];
-	int			i;
-
-	nb = (uint64_t)ptr;
-	ft_bzero(hex_revert, 16);
-	ft_bzero(hex, 16);
-	i = 0;
-	while (nb)
-	{
-		hex[i] = nb % 16;
-		if (hex[i] >= 10)
-			hex_revert[i] = hex[i] + 'A' - 10;
-		else
-			hex_revert[i] = hex[i] + '0';
-		nb /= 16;
-		i++;
-	}
-	ft_putstr("0x");
-	while (i >= 0)
-	{
-		ft_putchar(hex_revert[i]);
-		i--;
-	}
-}
-
-size_t	print_line_info(t_zone *tmp)
+size_t	print_line_info_c(t_zone *tmp)
 {
 	ft_puthexa(tmp);
 	ft_putstr(" -> ");
 	ft_puthexa(tmp->mem);
 	ft_putstr(" : ");
 	ft_putnbr(tmp->size);
-	ft_putstr(" octets \n\t");
+	ft_putstr(" octets -> ");
+	ft_putstr((const char*)tmp->mem);
+	ft_putstr("\n\t");
 	return (tmp->size);
 }
 
-size_t	print_mem_zone(t_zone *first)
+size_t	print_mem_zone_content(t_zone *first)
 {
 	t_zone *tmp;
 	size_t octes;
@@ -64,7 +37,9 @@ size_t	print_mem_zone(t_zone *first)
 	while (tmp->next != NULL)
 	{
 		if (tmp->used == true)
-			octes += print_line_info(tmp);
+		{
+			octes += print_line_info_c(tmp);
+		}
 		else if (tmp->used == -1)
 		{
 			ft_putstr("\n\t");
@@ -77,7 +52,7 @@ size_t	print_mem_zone(t_zone *first)
 	return (octes);
 }
 
-void	show_alloc_mem(void)
+void	show_alloc_mem_content(void)
 {
 	size_t octes;
 
@@ -85,15 +60,15 @@ void	show_alloc_mem(void)
 	ft_putstr("TINY : ");
 	ft_puthexa(g_e.tiny);
 	ft_putstr("\n\t");
-	octes = print_mem_zone(g_e.tiny);
+	octes = print_mem_zone_content(g_e.tiny);
 	ft_putstr("SMALL : ");
 	ft_puthexa(g_e.small);
 	ft_putstr("\n\t");
-	octes += print_mem_zone(g_e.small);
+	octes += print_mem_zone_content(g_e.small);
 	ft_putstr("LARGE : ");
 	ft_puthexa(g_e.large);
 	ft_putstr("\n\t");
-	octes += print_mem_zone(g_e.large);
+	octes += print_mem_zone_content(g_e.large);
 	ft_putstr("Total : ");
 	ft_putnbr(octes);
 	ft_putstr(" octets\n");

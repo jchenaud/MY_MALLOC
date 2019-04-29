@@ -4,57 +4,60 @@ endif
 
 NAME = libft_malloc_$(HOSTTYPE).so
 
-FILE = 	malloc.c \
-		free.c \
-		realloc.c \
-		show_alloc.c \
-		thread.c \
-		erno.c \
+FLAGS = -Wall -Wextra -Werror -g
 
-SRC_PATH = src
-INCLUDES = include
+LIBFT = libft
 
-BRI  = $(FILE:.c=.o)
-BRICK = $(addprefix $(SRC_PATH)/,$(BRI))
-SRC = $(addprefix $(SRC_PATH)/,$(FILE))
-FLAG = -Wall -Wextra
+HEADERS		= -Iinclude/ -I$(LIBFT)/
+C_DIR		= src
+H_DIR		= include
+O_DIR 		= .OBJS
+# TEST_DIR	= test
 
+# TEST_FILES 	= $(shell find $(TEST_DIR) -type f -follow)
 
+C_FILES 	= $(shell find $(C_DIR) -type f -follow)
+H_FILES 	= $(shell find $(H_DIR) -type f -follow)
+O_FILES = $(C_FILES:%.c=$(O_DIR)/%.o)
 
-all:$(NAME)
-$(NAME): $(BRICK)
+.PHONY: all, clean, fclean, re, norme, m_test
 
-	cd libft && make re
-	gcc -lpthread -shared -o $(NAME) $(FLAG) -I include  -I libft libft/libft.a  $(SRC)
-	ln -fs $(NAME) libft_malloc.so
+all : $(NAME)
 
-host:
-	echo $(HOSTTYPE)
+$(NAME) : $(O_DIR)  $(O_FILES)
+	@echo "/////comp libft///\n"
+	cd libft/ && make
+	@echo "/////comp my_malloc///\n"
+	gcc $(FLAGS) -shared -o $@ $(O_FILES) -L$(LIBFT) -lft
+	@echo "/////make  symbolic linck///\n"
 
-test_true:
-	gcc -o test_true $(SRC) test_true.c  -I include  -I libft libft/libft.a
+	ln -sf $(NAME) libft_malloc.so
 
-rm_true:
-	@rm test_true
+$(O_DIR)/%.o: %.c
+	gcc -o $@ -c $< $(HEADERS)
 
-re_true:rm_true test_true
+$(O_DIR):
+	mkdir -p $(O_DIR)/$(C_DIR)
 
-$(BRICK): $(SRC)
-	@gcc  -o $@ -I include  -I libft -c $<
+clean:
+	rm -rf ./test_true
+	cd libft/ && make clean	
+	rm -rf $(O_DIR)
 
-# %.o: %.c includes/ft_// printf.h Makefile
-# 	gcc -Wall -Wextra -Werror -o $@ -c $< -I includes
-
-# $(NAME): $(BRICK) $(SRC)
-# 	ar rc $(NAME) $(BRICK)
-# 	ranlib $(NAME)
-
-# clean:
-# 	# @/bin/rm -f $(BRICK)
 
 fclean: clean
-# 	# @/bin/rm -f $(NAME)
+	cd libft/ && make fclean	
+	rm -rf $(NAME)
 
 re: fclean all
 
-# .PHONY: re all clean fclean
+
+norminette:
+	norminette $(C_FILES) $(H_FILES)
+
+m_test:
+	@RM ./test_true || true
+	@gcc -o test_true $(C_FILES) test_true.c  -I include  -I libft libft/libft.a
+
+
+
