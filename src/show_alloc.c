@@ -6,7 +6,7 @@
 /*   By: jchenaud <jchenaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 14:31:56 by jchenaud          #+#    #+#             */
-/*   Updated: 2019/04/29 15:43:55 by jchenaud         ###   ########.fr       */
+/*   Updated: 2019/05/01 10:48:18 by jchenaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	show_alloc_mem(void)
 {
 	size_t octes;
 
+	lock();
 	ft_putstr("\n");
 	ft_putstr("TINY : ");
 	ft_puthexa(g_e.tiny);
@@ -97,4 +98,5 @@ void	show_alloc_mem(void)
 	ft_putstr("Total : ");
 	ft_putnbr(octes);
 	ft_putstr(" octets\n");
+	unlock();
 }

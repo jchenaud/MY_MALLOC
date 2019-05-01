@@ -55,9 +55,12 @@ re: fclean all
 norminette:
 	norminette $(C_FILES) $(H_FILES)
 
-m_test:
-	@RM ./test_true || true
-	@gcc -o test_true $(C_FILES) test_true.c  -I include  -I libft libft/libft.a
+# m_test:
+# 	@RM ./test_true || true
+# 	@gcc -o test_true $(C_FILES) test_true.c  -I include  -I libft libft/libft.a
+# 	@gcc -o test6 $(C_FILES) test6.c  -I include  -I libft libft/libft.a
+# 	@gcc -o test7 $(C_FILES) test7.c  -I include  -I libft libft/libft.a
+
 
 
 
