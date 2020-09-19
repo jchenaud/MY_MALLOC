@@ -2,3 +2,5 @@ implémentation de malloc en c
 
 make 
 ./run.sh "prog you want run"
+
+run.sh remplace le vrai malloc juste pour cette execution 
