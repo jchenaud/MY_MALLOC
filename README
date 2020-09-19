@@ -1,4 +1,4 @@
 implémentation de malloc en c 
 
 make 
-./run.sh "prog you whant run"
+./run.sh "prog you want run"
